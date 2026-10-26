@@ -66,8 +66,8 @@ Chạy test, kiểm tra file, rồi tải thư mục `dist/` lên static hosting
 
 1. Đăng nhập trang quản trị bằng email/password đã tạo trong Supabase Auth.
 2. Bấm **Đăng món mới**, nhập mã SKU, tên, loại, giá nguyên VNĐ, ngày lên hàng và trạng thái.
-3. Với nhẫn/vòng, nhập đường kính trong theo **mm**. Với mặt dây/ngọc khác, ni được bỏ trống. Ghi kích thước bản và dáng bầu nếu có trong phần kích thước.
-4. Thêm ảnh thật. Chọn ảnh đại diện; có thể gỡ ảnh khỏi sản phẩm hoặc đổi thứ tự bằng nút đặt đại diện. Gỡ ảnh không xóa file nguồn trong kho.
+3. Nhập **Size (mm)** theo từng món: đường kính hạt, ni lòng vòng/nhẫn hoặc kích thước nhiều chiều. Vòng bản/nhẫn cần Size; các loại khác có thể bỏ trống.
+4. Thêm ảnh thật. Ảnh đầu tiên tự làm ảnh bìa và hiện xem trước ngay; có thể đổi bằng **Đặt làm ảnh bìa**. Đợi tất cả ảnh báo **Đã tải xong** rồi lưu. Nếu lỗi mạng, ảnh đã chọn vẫn được giữ trong tab: bấm **Thử lại ảnh này**, hoặc **Gỡ ảnh** nếu không dùng. **Dừng tải** giữ ảnh để thử lại; gỡ ảnh không xóa file nguồn trong kho.
 5. Nếu có video, tải MP4/WebM hoặc nhập URL HTTPS trỏ trực tiếp file video. Không dùng link trang YouTube như URL file MP4.
 6. Ghi mô tả vân, bề mặt, lưu ý và thông tin kiểm định. Chỉ chọn kết luận xử lý khi có mã phiếu kiểm định. Hai ô đơn vị/liên kết phiếu đã bỏ theo yêu cầu cửa hàng; dữ liệu cũ vẫn được giữ khi sửa món. Khách liên hệ cửa hàng để xem phiếu nếu chưa có liên kết công khai.
 7. Bật **Hiển thị trên catalogue** nếu muốn công bố; tắt để giữ sản phẩm trong trang quản trị.
@@ -75,6 +75,8 @@ Chạy test, kiểm tra file, rồi tải thư mục `dist/` lên static hosting
 9. Sau giao dịch qua Zalo, sửa sang **Đã hết hàng**. Có thể để công bố như một mẫu đã bán hoặc ẩn.
 
 Khi có thông báo “đã thay đổi ở nơi khác”, tải lại danh sách rồi sửa trên bản mới. Không bấm nhiều lần để ghi đè phiên khác.
+
+Ảnh gốc tối đa 40 MB; web đọc và chuẩn bị ảnh lớn về cạnh dài tối đa 2.000 px, tệp gửi lên tối đa 8 MB. JPEG/PNG/WebP được hỗ trợ; HEIC cần trình duyệt đọc được định dạng đó, nếu không web sẽ yêu cầu bản JPG/PNG. Không đóng tab khi còn ảnh chưa tải hoặc nội dung chưa lưu. Video MP4/WebM tối đa 40 MB cũng có tiến độ, dừng và thử lại; có thể gỡ lựa chọn video lỗi để dùng URL HTTPS.
 
 Mã sản phẩm phân biệt với tên: không dùng lại cùng mã cho món mới khác. Không đưa thông tin khách, địa chỉ giao hàng hay chứng từ cá nhân vào mô tả/ảnh public.
 

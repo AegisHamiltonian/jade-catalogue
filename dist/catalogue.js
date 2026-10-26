@@ -56,7 +56,7 @@ export function validateProduct(p) {
   if (usesDiameter(p.category) && !String(p.size_mm??'').trim()) errors.push('Cần nhập Size (mm) cho nhẫn hoặc vòng bản.');
   const numbers=sizeNumbers(p.category,p.size_mm);
   if(!numbers.valid || (p.ni_tay??null)!==numbers.ni_tay || (p.bead_diameter_mm??null)!==numbers.bead_diameter_mm) errors.push('Số đo không khớp với Size (mm).');
-  if (!safeMedia(p.thumbnail_url)) errors.push('Cần một ảnh đại diện HTTPS hợp lệ.');
+  if (!safeMedia(p.thumbnail_url)) errors.push('Cần chọn ảnh bìa và tải ảnh thành công trước khi lưu.');
   if (p.gallery_urls?.some(url => !safeMedia(url))) errors.push('Ảnh thư viện cần dùng URL HTTPS hợp lệ.');
   if (p.video_url && !safeMedia(p.video_url)) errors.push('Video cần dùng URL HTTPS hợp lệ.');
   if (p.certificate_url && !safeMedia(p.certificate_url)) errors.push('Phiếu kiểm định cần dùng URL HTTPS hợp lệ.');

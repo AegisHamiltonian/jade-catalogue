@@ -7,16 +7,41 @@ const configured = () => {
   if (!/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(config.supabaseUrl) || !config.supabasePublishableKey) throw new Error('Chưa cấu hình kết nối Supabase của cửa hàng.');
   if (config.supabasePublishableKey.startsWith('sb_secret_')) throw new Error('Web chỉ được dùng publishable key, không dùng secret key.');
 };
+function responseError(status,body={},storage=false){
+  if(status===401)session=null;
+  return new Error(status===409?(storage?'Tệp đã có trong kho ảnh. Hãy thử tải lại.':'Mã sản phẩm đã tồn tại. Hãy chọn mã khác.'):status===403?'Tài khoản không có quyền quản trị cửa hàng.':status===401?'Phiên đăng nhập không hợp lệ hoặc đã hết hạn.':body.message||body.msg||body.error||'Không thể kết nối dữ liệu cửa hàng. Hãy thử lại.');
+}
 async function request(path, { token, headers = {}, ...options } = {}) {
   configured();
   const response = await fetch(`${config.supabaseUrl}${path}`, { ...options, cache:'no-store', signal: AbortSignal.timeout(20000), headers: { apikey:config.supabasePublishableKey, ...(token ? { Authorization:`Bearer ${token}` } : {}), ...headers } });
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
-    if (response.status === 401) session = null;
-    const reason = response.status === 409 ? 'Mã sản phẩm đã tồn tại. Hãy chọn mã khác.' : response.status === 403 ? 'Tài khoản không có quyền quản trị cửa hàng.' : response.status === 401 ? 'Phiên đăng nhập không hợp lệ hoặc đã hết hạn.' : body.message || body.msg || 'Không thể kết nối dữ liệu cửa hàng. Hãy thử lại.';
-    throw new Error(reason);
+    throw responseError(response.status,body);
   }
   return response.status === 204 ? null : response.json();
+}
+function uploadObject(path,file,token,{signal,onProgress,timeout}){
+  configured();
+  return new Promise((resolve,reject)=>{
+    const xhr=new XMLHttpRequest();let settled=false;
+    const abort=()=>xhr.abort();
+    const finish=(fn,value)=>{if(settled)return;settled=true;signal?.removeEventListener('abort',abort);fn(value);};
+    // Register upload listeners before open(): required for reliable WebKit progress events.
+    xhr.upload.addEventListener('progress',event=>{if(event.lengthComputable&&!settled)onProgress?.(Math.min(99,Math.round(event.loaded/event.total*100)));});
+    xhr.onload=()=>{
+      if(xhr.status>=200&&xhr.status<300){finish(resolve);return;}
+      let body={};try{body=JSON.parse(xhr.responseText||'{}');}catch{}
+      finish(reject,responseError(xhr.status,body,true));
+    };
+    xhr.onerror=()=>finish(reject,new Error('Mất kết nối khi tải tệp. Ảnh đã chọn vẫn được giữ; bấm Thử lại khi có mạng.'));
+    xhr.ontimeout=()=>finish(reject,new Error('Tải tệp quá lâu. Ảnh đã chọn vẫn được giữ; kiểm tra mạng rồi bấm Thử lại.'));
+    xhr.onabort=()=>finish(reject,new DOMException('Đã dừng tải','AbortError'));
+    xhr.open('POST',config.supabaseUrl+path,true);xhr.timeout=timeout;
+    for(const [key,value]of Object.entries({apikey:config.supabasePublishableKey,Authorization:`Bearer ${token}`,'Content-Type':file.type,'x-upsert':'false'}))xhr.setRequestHeader(key,value);
+    if(signal?.aborted){finish(reject,new DOMException('Đã dừng tải','AbortError'));return;}
+    signal?.addEventListener('abort',abort,{once:true});
+    try{xhr.send(file);}catch(error){finish(reject,error);}
+  });
 }
 async function accessToken() {
   if (!session) throw new Error('Vui lòng đăng nhập lại.');
@@ -72,14 +97,15 @@ export const repository = {
     const rows = await request(`/rest/v1/products?id=eq.${encodeURIComponent(product.id)}&updated_at=eq.${encodeURIComponent(product.updated_at)}`,{ method:'DELETE',token,headers:{Prefer:'return=representation'} });
     if (!rows?.length) throw new Error('Sản phẩm đã thay đổi hoặc bạn không còn quyền xóa. Tải lại danh sách.');
   },
-  async upload(file, namespace='images') {
+  async upload(file, namespace='images',options={}) {
+    if(!['images','videos'].includes(namespace))throw new Error('Loại tệp tải lên không hợp lệ.');
     const token = await accessToken();
     const types = namespace === 'videos' ? ['video/mp4','video/webm'] : ['image/jpeg','image/png','image/webp'];
     const max = namespace === 'videos' ? 40*1024*1024 : 8*1024*1024;
     if (!types.includes(file.type) || file.size > max) throw new Error(namespace === 'videos' ? 'Video cần là MP4/WebM, tối đa 40 MB.' : 'Ảnh cần là JPG/PNG/WebP, tối đa 8 MB.');
     const suffix = { 'image/jpeg':'jpg','image/png':'png','image/webp':'webp','video/mp4':'mp4','video/webm':'webm' }[file.type];
     const objectPath = `${namespace}/${crypto.randomUUID()}.${suffix}`;
-    await request(`/storage/v1/object/${config.mediaBucket}/${objectPath}`, { method:'POST', token,headers:{'Content-Type':file.type,'x-upsert':'false'},body:file });
+    await uploadObject(`/storage/v1/object/${config.mediaBucket}/${objectPath}`,file,token,{...options,timeout:namespace==='videos'?300000:180000});
     return `${config.supabaseUrl}/storage/v1/object/public/${config.mediaBucket}/${objectPath}`;
   },
 };
