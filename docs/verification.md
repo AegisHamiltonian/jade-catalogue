@@ -86,3 +86,11 @@ Theo địa chỉ người dùng xác nhận, remote `origin` là `https://githu
 - Module mới được gọi ngay trong hướng dẫn size hiện có. Ba mục và sáu ảnh vòng tay vẫn giữ nguyên, không sửa sản phẩm, dữ liệu hay quyền truy cập. Tất cả các điểm mở hướng dẫn tiếp tục dùng cùng một dialog.
 - Browser desktop và mobile 390 px: mục nhẫn mở/đóng được, hai ảnh tải đúng kích thước, có liên kết xem lớn; bảng HTML đủ 9 dòng. Mobile đo được dialog clientWidth = scrollWidth = 328 px; không tràn ngang.
 - `npm test`: 13/13 qua, gồm 11 kiểm thử hiện có cùng kiểm tra số liệu và đường nối hướng dẫn mới; kiểm tra cú pháp/tham chiếu tài nguyên qua. Không đăng nhập hoặc ghi database cho thay đổi này.
+
+## Tăng cỡ chữ và cân đối đầu trang — 26/10/2026
+
+- Nâng cỡ chữ ở catalogue, bộ lọc, thông số/giá, chi tiết, hướng dẫn ni, chân trang và quản trị. Giữ nội dung, toàn bộ thao tác, thông số, dữ liệu, liên hệ và phân quyền. Chỉ bỏ ngắt dòng cứng giữa câu mô tả đầu trang, thay bằng ngắt dòng tự nhiên trong CSS; nguyên văn câu vẫn giữ đủ.
+- Browser desktop 1280 px, laptop 1024 px, tablet 900 px và điện thoại 390/320 px: không tràn ngang. Ở 320 px sau chỉnh header: root scrollWidth = clientWidth = 305 px (phần còn lại là thanh cuộn); tìm kiếm/lưu món/menu đều còn trong khung. Trang quản trị 320 px cũng bằng 305 px, trường nhập 16 px.
+- Kiểm tra với host dữ liệu thử riêng: tìm SKU n188 trả 1 món; popup chi tiết mở được, thông số và giá đọc rõ, không tràn ngang. Không thêm dữ liệu thử vào Supabase. Ở mobile: tên thẻ 18 px, thông số phụ 13 px, giá 15 px, bộ lọc 16 px; mô tả chi tiết và hướng dẫn 16 px.
+- Hướng dẫn nhẫn vẫn mở được, bảng đủ 9 dòng; dialog 320 px có clientWidth = scrollWidth = 281 px sau khi nới phần đọc. Các ảnh/hướng dẫn vòng tay và liên kết nhóm/hotline giữ nguyên.
+- 13/13 kiểm thử hiện có qua; cú pháp và tham chiếu tài nguyên qua. Không thêm test chỉ để khóa các giá trị CSS; kiểm tra bố cục trực tiếp bằng trình duyệt.

@@ -18,6 +18,12 @@ Logo Lyn từ ảnh do chủ cửa hàng cung cấp được giữ nguyên nội
 
 Lora cho tiêu đề và chữ nghiêng, Be Vietnam Pro cho tiếng Việt trong điều hướng, bộ lọc, thông số. Font phục vụ tại chỗ, có OFL trong assets; không phụ thuộc tải Google Fonts khi mở trang.
 
+### Cỡ chữ và nhịp đọc
+
+Cập nhật theo phản hồi khách: chữ nền 16 px trên desktop, 15 px trên điện thoại; mô tả đầu trang, chi tiết sản phẩm và hướng dẫn 16 px. Nhãn/thông số phụ dùng 12–15 px tùy vị trí, thay các cỡ 8–12 px cũ. Trường nhập quản trị và bộ lọc trên điện thoại dùng 16 px. Chữ nhận diện và dòng trang trí có cấp độ riêng, không dùng làm thông tin chọn hàng.
+
+Khối đầu trang dùng hai cột có khoảng cách rõ, cùng trục căn cho nhãn, tiêu đề, mô tả và nút. Đoạn mô tả tự ngắt dòng theo chiều rộng; chú thích không bị đẩy xa xuống đáy. Ở màn hình nhỏ, khối này căn giữa. Giá và nút chi tiết được xuống dòng khi cần; giữ đủ tìm kiếm/lưu món/menu ở chiều rộng 320 px. Dialog hướng dẫn được nới phần đọc, giữ đầy đủ bảng và hình.
+
 Đã clone repo [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill), tham chiếu commit `d14efff8ed1faa4187f004f79926f428c8074ec7`. Truy vấn typography trả về Luxury Serif (Cormorant/Montserrat) và Luxury Minimalist (Bodoni/Jost). Chọn nguyên tắc serif + sans nhưng điều chỉnh thành Lora/Be Vietnam Pro để phục vụ nội dung Việt. Gợi ý glassmorphism từ bộ dữ liệu không được chọn vì không phù hợp yêu cầu của cửa hàng. Không cài tự động toàn bộ repo như một plugin.
 
 ## Bố cục và tương tác
