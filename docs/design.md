@@ -6,15 +6,15 @@ Thanh nhã, đơn giản, dễ ngắm và có độ tin cậy của một cửa 
 
 | Vai trò | Giá trị | Cách dùng |
 |---|---|---|
-| Kem ấm | `#fffaf5` | Nền chính, đủ trung tính để xem màu ngọc |
-| Hồng đất đậm | `#874652` | Nút chính, điều hướng, vùng liên hệ và focus |
-| Chữ nâu mận | `#4d353a` | Nội dung chính, tương phản 10,73:1 trên nền kem |
-| Chữ phụ | `#786267` | Thông số, nhãn, chú thích; tương phản 5,41:1 trên kem |
-| Hồng phấn | `#f7e8e6` | Mảng nền nhỏ và phản hồi; không dùng làm chữ nhỏ |
-| Hồng gốm nhạt | `#b48177` | Nét trang trí có tiết chế |
-| Viền | `#eadbd5` | Phân vùng nhẹ, giảm nhu cầu box shadow |
+| Nền ngà | `#fcfbf8` | Nền chính, trung tính khi xem ngọc |
+| Xanh ngọc trầm | `#254e43` | Nút chính, điều hướng, vùng liên hệ và focus |
+| Chữ xanh đen | `#263d35` | Nội dung chính |
+| Chữ phụ | `#69726b` | Thông số và nhãn |
+| Xanh sương | `#eaf0e9` | Nền phản hồi nhỏ |
+| Đồng trầm | `#a28c60` | Nét trang trí tiết chế |
+| Viền | `#e4e6dd` | Phân vùng nhẹ |
 
-Logo Lyn từ ảnh do chủ cửa hàng cung cấp được giữ nguyên nội dung, chuyển định dạng WebP để dùng ở header/footer/trang quản trị; favicon PNG lấy từ cùng ảnh. Nguồn gốc tại `design/brand/lyn-logo-original.png`. Không sinh hoặc vẽ lại logo. Xanh lam trong ảnh QR là giao diện Zalo, không dùng làm màu nhận diện website. Xanh trong ảnh ngọc và minh họa chất ngọc vẫn giữ tự nhiên.
+Logo Lyn từ ảnh do chủ cửa hàng cung cấp được giữ nguyên nội dung, chuyển định dạng WebP để dùng ở header/footer/trang quản trị; favicon PNG lấy từ cùng ảnh. Nguồn gốc tại `design/brand/lyn-logo-original.png`. Không sinh hoặc vẽ lại logo. Xanh lam trong ảnh QR là giao diện Zalo, không dùng làm màu nhận diện website. Màu ảnh ngọc được giữ tự nhiên; logo Lyn hồng nhỏ được giữ đúng bản gốc.
 
 Lora cho tiêu đề và chữ nghiêng, Be Vietnam Pro cho tiếng Việt trong điều hướng, bộ lọc, thông số. Font phục vụ tại chỗ, có OFL trong assets; không phụ thuộc tải Google Fonts khi mở trang.
 
@@ -29,33 +29,8 @@ Lora cho tiêu đề và chữ nghiêng, Be Vietnam Pro cho tiếng Việt trong
 - Focus hiển thị rõ; có skip link; tôn trọng reduced motion. Đối chiếu nguyên tắc tương phản, focus, nhãn và target trong [WCAG 2.2](https://www.w3.org/TR/WCAG22/). Đây chưa phải tuyên bố đã audit đầy đủ WCAG AA.
 - Nội dung không bịa đánh giá, số khách, giấy kiểm định, xuất xứ hay cam kết giao hàng.
 
-## Ảnh tạm và nguồn gốc
+## Ảnh thật và nguồn gốc
 
-Người dùng đã yêu cầu không tạo thêm ảnh fake. Bốn ảnh đã tạo trước yêu cầu đó được giữ làm ảnh minh họa tạm và ghi nhãn. Chủ cửa hàng thay ảnh thật qua trang quản trị; không dùng chúng để xác nhận hàng có sẵn.
+Ảnh do cửa hàng cung cấp trong thư mục Ảnh làm nền, chọn vòng trơn cho đầu trang và vòng hạt xanh nhạt cho câu chuyện. Không sinh ảnh, không đổi màu hoặc sửa bề mặt ngọc. Chuyển JPEG sang WebP/PNG và giảm kích thước bằng sharp. Không còn nhãn ảnh minh họa trên giao diện.
 
-Phương thức đã dùng: công cụ image_gen tích hợp, không dùng fallback CLI. Ảnh gốc giữ nguyên trong `design/source-images/`; WebP tương ứng dùng trên giao diện:
-
-- `dist/assets/jade-editorial.webp` — hero và vòng minh họa.
-- `dist/assets/lavender-bangle.webp` — vòng tím nhạt minh họa.
-- `dist/assets/honey-ring.webp` — nhẫn vàng mật minh họa.
-- `dist/assets/green-pendant.webp` — mặt ngọc xanh minh họa.
-
-Nén định dạng bằng sharp, không sửa nội dung ảnh. Không tạo ảnh mới trong script chuẩn bị tài nguyên.
-
-### Prompt đã dùng
-
-**Hero**
-
-> Use case: product-mockup. Asset type: wide editorial photograph for an elegant Vietnamese jade jewelry boutique website. Create a photorealistic luxury still life, landscape 3:2 composition: one substantial pale celadon semi translucent jade bangle stands almost upright leaning against a rough pale cream limestone block, with a second slender milky ivory jade bangle lying in front on softly folded ivory raw silk. Close intimate camera, jade occupies center-right and fills most of photo. Subtle green cloud inclusions and realistic translucent polish, no gold or gemstones. Natural window light from upper left, soft botanical shadows, warm off-white plaster background. Calm quiet luxury, restrained and sculptural, artisanal editorial photography, exquisite tactile detail, no excessive saturation, no text, no logos, no watermark, no collage. This is illustrative concept photography, not an image of real shop inventory.
-
-**Vòng tím**
-
-> Use case: product-mockup. Square photorealistic premium product photograph of a single polished round jade bangle in soft very pale lavender with cloudy milky white inclusions. Bangle rests at a shallow angle on a small raw light limestone slab over warm ivory background. Full bangle visible, centered, fills 72% of square. Natural soft daylight, realistic stone semitranslucency, soft gray green shadows. Refined quiet luxury jewelers catalogue. No extra jewelry, no flowers, no props other than limestone, no text, no watermark. Illustrative fictional product for design prototype.
-
-**Nhẫn**
-
-> Use case: product-mockup. Square photorealistic premium macro product photograph of a single solid honey amber yellow jade hololith ring, thick rounded polished band made entirely of jade, no metal setting. The ring leans gently on a small pale cream limestone piece, warm ivory matte studio background. Whole ring visible, centered, fills 65% of square. Soft daylight, translucent natural jade cloudy variations, refined understated luxury editorial catalogue, believable scale and stone texture. No gold metal, no text, no watermark. Illustrative fictional product for design prototype.
-
-**Mặt dây**
-
-> Use case: product-mockup. Square photorealistic premium product photograph of a single rich forest green jade oval cabochon pendant with a discreet tiny warm gold bail, pendant lying on pale warm limestone with thin dark green silk cord gently running toward the upper background edge. Natural stone variation and polished domed green surface, soft window daylight, warm ivory studio background. Whole pendant centered, fills 60% of square, refined understated luxury jewelers catalogue. No additional jewelry, no flowers, no text, no watermark. Illustrative fictional product for design prototype.
+Danh mục nguồn và ánh xạ tài nguyên tại [real-photos.md](real-photos.md), bản gốc tại `design/real-photos/manifest.json`. Giữ nguyên tất cả URL WebP/PNG cũ, thay nội dung bằng ảnh thật để mọi nơi đang dùng đều được cập nhật. Dữ liệu thử về giá/thông số vẫn được ghi rõ trong chế độ preview; không ghi chúng vào Supabase.

@@ -2,7 +2,7 @@
 
 Website giới thiệu vòng cẩm thạch, phỉ thúy, nhẫn và mặt ngọc. Khách xem catalogue và [nhóm Zalo Ngọc Nhà Lyn](https://zalo.me/g/bafpcs297); liên hệ trực tiếp qua hotline **0979 628 889**. Không có giỏ hàng, thanh toán, tài khoản khách hoặc cơ chế giữ hàng.
 
-Nhận diện hiện tại dùng logo Lyn do chủ cửa hàng cung cấp, nền kem ấm, hồng phấn và điểm nhấn hồng đất. Xem [yêu cầu và quyết định thiết kế](docs/rebrand-lyn.md). Kết nối Supabase và quyền quản trị được giữ nguyên.
+Nhận diện hiện tại dùng logo Lyn do chủ cửa hàng cung cấp, nền ngà, xanh ngọc trầm và ảnh thật do cửa hàng cung cấp. Xem [yêu cầu và quyết định thiết kế](docs/rebrand-lyn.md). Kết nối Supabase và quyền quản trị được giữ nguyên.
 
 Đã kết nối dự án Supabase thật, áp dụng schema/Storage/RLS và cấp quyền cho **tài khoản chủ cửa hàng đã chỉ định**. Tại thời điểm bàn giao database có **0 sản phẩm, 1 admin**; không đưa hàng minh họa vào tồn kho thật. Trang `/admin.html` dùng email/mật khẩu của user được cấp quyền trong Supabase Authentication. Không dùng mật khẩu database.
 
@@ -49,4 +49,4 @@ Test thực thi PostgreSQL qua PGlite kiểm tra quyền, constraint, trigger v�
 
 ## Tài nguyên
 
-Ảnh minh họa tạm đã có được giữ lại theo yêu cầu; không tạo thêm sau khi người dùng dừng sinh ảnh. Không coi ảnh này là ảnh thật của cửa hàng. Bản WebP được phục vụ trong `dist/assets/`; ảnh gốc được giữ ở `design/source-images/`. Các font Lora và Be Vietnam Pro được phục vụ tại chỗ kèm giấy phép OFL.
+Ảnh đầu trang, câu chuyện và ảnh dùng để kiểm tra giao diện lấy từ bộ ảnh thật do cửa hàng cung cấp. Bản JPEG gốc và danh mục nguồn tại `design/real-photos/`; bản WebP/PNG tại `dist/assets/`. Không tự đưa ảnh nền thành hàng có sẵn. Xem [nguồn ảnh và cách chọn](docs/real-photos.md). Các font Lora và Be Vietnam Pro được phục vụ tại chỗ kèm giấy phép OFL.

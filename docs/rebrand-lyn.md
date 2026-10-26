@@ -1,3 +1,5 @@
+> Cập nhật 26/10/2026: khách chọn trở lại bảng màu xanh ngọc trầm trên nền ngà. Thương hiệu Ngọc Nhà Lyn, logo, nhóm Zalo và hotline giữ nguyên. Quy chuẩn hiện hành tại design.md; ảnh thật tại real-photos.md. Phần dưới ghi lại yêu cầu nhận diện trước đó.
+
 # Yêu cầu nhận diện Ngọc Nhà Lyn
 
 ## Yêu cầu và cách xử lý

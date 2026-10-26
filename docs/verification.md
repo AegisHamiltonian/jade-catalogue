@@ -69,3 +69,12 @@ Mã catalogue hiện dùng `dataSource: 'supabase'`. Lỗi API thật không tr�
 ## Repo triển khai đang dùng
 
 Theo địa chỉ người dùng xác nhận, remote `origin` là `https://github.com/AegisHamiltonian/jade-catalogue.git`. Nhánh main giữ nguyên commit khởi tạo của repo đó, không force-push. Bản nhận diện Ngọc Nhà Lyn đã được xác nhận trên `https://jade-catalogue.vercel.app/`, cùng config nhóm Zalo và trang quản trị mới.
+
+## Ảnh thật và màu xanh — 26/10/2026
+
+- Đã xem bộ 13 ảnh thật do cửa hàng cung cấp; thay ảnh đầu trang và câu chuyện, đồng thời thay hai ảnh còn lại của chế độ kiểm tra giao diện. Mọi URL PNG/WebP hiện hành giữ nguyên, cùng trỏ tới nội dung ảnh thật. Bản JPEG nguồn giữ nguyên byte so với ảnh khách cung cấp; PNG xuất ra có pixel khớp phép giảm kích thước từ nguồn. Không tạo hoặc đổi màu ảnh.
+- Gỡ nhãn ảnh minh họa/ảnh AI khỏi HTML, alt và caption chi tiết. Quét mã HTML/JS/CSS trong dist không còn các cụm đó. Giá/thông số giả lập vẫn được ghi rõ trong chế độ preview riêng, không hiển thị là tồn kho thật.
+- Browser ở desktop 1280 px và mobile 390 px: ảnh đầu trang/câu chuyện tải đúng, không tràn ngang. Trang đăng nhập quản trị mobile dùng bảng màu xanh, hiện form Auth thật. Popup sản phẩm trong chế độ kiểm tra dùng ảnh nhẫn thật và ghi chú ánh sáng/màn hình, không còn ghi chú sai về nguồn ảnh.
+- Hướng dẫn ni mở được, vẫn đủ 3 mục và 6 ảnh. Nhóm Zalo và hotline giữ đúng liên kết. Không thay cấu hình Supabase, schema, quyền admin hoặc dữ liệu sản phẩm.
+- Tương phản trên nền #fcfbf8: chữ chính 11,27:1, xanh chính 9,02:1, chữ phụ 4,81:1, chữ nghiêng 5,47:1. Đây là kiểm tra bảng màu, không phải tuyên bố audit toàn bộ WCAG.
+- `npm test`: 11/11 qua; `npm run check`: qua; `git diff --check`: qua. Không thực hiện đăng nhập hay ghi dữ liệu bằng tài khoản chủ cửa hàng cho thay đổi giao diện này.

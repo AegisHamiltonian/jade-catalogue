@@ -1,13 +1,20 @@
 import sharp from 'sharp';
-import { mkdir, readFile, writeFile, copyFile, stat } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 const assets = path.resolve('dist/assets');
 await mkdir('design/source-images', {recursive:true});
-for (const name of ['jade-editorial','lavender-bangle','honey-ring','green-pendant']) {
-  const source=path.join(assets,name+'.png');
+const sourceDirectory=path.resolve('design/real-photos');
+const manifest=JSON.parse(await readFile(path.join(sourceDirectory,'manifest.json'),'utf8'));
+for (const {name,source:filename,width} of manifest.assets) {
+  const source=path.resolve(sourceDirectory,filename);
+  if(!source.startsWith(sourceDirectory+path.sep)||!/^[a-z0-9-]+$/.test(name))throw new Error('Invalid photo manifest path');
   const metadata=await sharp(source).metadata();
-  await copyFile(source,path.resolve('design/source-images',name+'.png'));
-  await sharp(source).resize({width:1536,withoutEnlargement:true}).webp({quality:85}).toFile(path.join(assets,name+'.webp'));
+  const photo=sharp(source).rotate().resize({width,withoutEnlargement:true});
+  const png=await photo.clone().png({compressionLevel:9}).toBuffer();
+  // Keep all existing PNG/WebP consumers valid, now backed by the same real photograph.
+  await writeFile(path.join(assets,name+'.png'),png);
+  await writeFile(path.resolve('design/source-images',name+'.png'),png);
+  await photo.clone().webp({quality:90,effort:5}).toFile(path.join(assets,name+'.webp'));
   const output=await sharp(path.join(assets,name+'.webp')).metadata();
   if(!output.width||output.width>metadata.width||output.format!=='webp')throw new Error('Asset conversion failed');
   console.log(`${name}: ${metadata.width}x${metadata.height} -> ${output.width}x${output.height}, ${(await stat(path.join(assets,name+'.webp'))).size} bytes`);

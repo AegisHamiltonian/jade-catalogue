@@ -1,0 +1,33 @@
+{
+  "provenance": "Ảnh thật do cửa hàng cung cấp trong thư mục Ảnh làm nền",
+  "assets": [
+    {
+      "name": "jade-editorial",
+      "source": "bangle.jpg",
+      "input": "1792996994567_2278516536103793720_844704740080797214_d2ec51018f766a95b0b6821e659e2df0.jpg",
+      "width": 1536,
+      "role": "Ảnh đầu trang — vòng ngọc trơn trên khay gỗ"
+    },
+    {
+      "name": "lavender-bangle",
+      "source": "beads.jpg",
+      "input": "1792997004682_2278516536103793720_844704740080797214_8c3a08b796872ede1ec59c7878332d4e.jpg",
+      "width": 1200,
+      "role": "Phần câu chuyện — vòng hạt xanh nhạt"
+    },
+    {
+      "name": "honey-ring",
+      "source": "ring.jpg",
+      "input": "1792996993122_2278516536103793720_844704740080797214_810fed71482a62e9c35fa2d5f4dd7932.jpg",
+      "width": 1200,
+      "role": "Ảnh nhẫn cho dữ liệu kiểm tra giao diện"
+    },
+    {
+      "name": "green-pendant",
+      "source": "cabochons.jpg",
+      "input": "1792996995710_2278516536103793720_844704740080797214_3a4ce1f1f44827dd53779e65593a641d.jpg",
+      "width": 1200,
+      "role": "Ảnh mặt ngọc cho dữ liệu kiểm tra giao diện"
+    }
+  ]
+}
