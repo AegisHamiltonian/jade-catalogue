@@ -4,7 +4,7 @@ import {randomUUID} from 'node:crypto';
 // Every probe is inside one transaction and is ALWAYS rolled back.
 // Public APIs and other database sessions cannot see these uncommitted rows.
 export async function verifyLiveRLS(client,email){
- const suffix=randomUUID().replaceAll('-','').slice(0,14),publicSku='qa-public-'+suffix,hiddenSku='qa-hidden-'+suffix;
+ const suffix=randomUUID().replaceAll('-','').slice(0,14),publicSku='qa-public-'+suffix,hiddenSku='qa-hidden-'+suffix,chainSku='qa-chain-'+suffix;
  const admin=(await client.query('select a.user_id from private.shop_admins a join auth.users u on a.user_id=u.id where lower(u.email)=lower($1)',[email])).rows[0];
  if(!admin)throw new Error('The specified Auth user does not have admin membership.');
  let assertions=0;
@@ -47,6 +47,12 @@ export async function verifyLiveRLS(client,email){
   await client.query("insert into storage.objects(bucket_id,name)values('product-media',$1)",['qa/'+suffix+'.webp']);
   check((await client.query("select name from storage.objects where name=$1",['qa/'+suffix+'.webp'])).rowCount,1);
   await denied('select * from private.product_audit');
+  await client.query("insert into public.products(sku,title,category,bead_diameter_mm,price_vnd,thumbnail_url,treatment,certificate_number)values($1,'Uncommitted bead size probe','vong_chuoi',5.8,500000,'https://example.invalid/bead.webp','a','QA-CERT')",[chainSku]);
+  const chain=(await client.query('select ni_tay,bead_diameter_mm,certificate_lab,certificate_number,certificate_url from public.products where sku=$1',[chainSku])).rows[0];
+  check(chain.ni_tay,null);check(Number(chain.bead_diameter_mm),5.8);check(chain.certificate_number,'QA-CERT');check(chain.certificate_lab,null);check(chain.certificate_url,null);
+  await client.query('savepoint invalid_chain_diameter');let rejected;
+  try{await client.query('update public.products set ni_tay=54 where sku=$1',[chainSku]);}catch(error){rejected=error;}
+  await client.query('rollback to savepoint invalid_chain_diameter');check(rejected?.code,'23514');
   check((await client.query('delete from public.products where sku=$1 returning sku',[hiddenSku])).rowCount,1);
   await client.query('reset role');
   await client.query('delete from private.shop_admins where user_id=$1',[admin.user_id]);
@@ -58,6 +64,7 @@ export async function verifyLiveRLS(client,email){
   await denied('delete from storage.objects where name=$1 returning id',['qa/'+suffix+'.webp']);
  }finally{await client.query('rollback');}
  check((await client.query('select sku from public.products where sku in($1,$2)',[publicSku,hiddenSku])).rowCount,0);
+ check((await client.query('select sku from public.products where sku=$1',[chainSku])).rowCount,0);
  check((await client.query('select name from storage.objects where name=$1',['qa/'+suffix+'.webp'])).rowCount,0);
  check((await client.query('select user_id from private.shop_admins where user_id=$1',[admin.user_id])).rowCount,1);
  return {passed:true,assertions,rolledBack:true,adminMembershipPreserved:true};

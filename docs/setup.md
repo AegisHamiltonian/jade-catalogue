@@ -69,7 +69,7 @@ Chạy test, kiểm tra file, rồi tải thư mục `dist/` lên static hosting
 3. Với nhẫn/vòng, nhập đường kính trong theo **mm**. Với mặt dây/ngọc khác, ni được bỏ trống. Ghi kích thước bản và dáng bầu nếu có trong phần kích thước.
 4. Thêm ảnh thật. Chọn ảnh đại diện; có thể gỡ ảnh khỏi sản phẩm hoặc đổi thứ tự bằng nút đặt đại diện. Gỡ ảnh không xóa file nguồn trong kho.
 5. Nếu có video, tải MP4/WebM hoặc nhập URL HTTPS trỏ trực tiếp file video. Không dùng link trang YouTube như URL file MP4.
-6. Ghi mô tả vân, bề mặt, lưu ý và thông tin kiểm định. Chỉ chọn kết luận xử lý khi có đủ đơn vị, mã phiếu và liên kết ảnh phiếu.
+6. Ghi mô tả vân, bề mặt, lưu ý và thông tin kiểm định. Chỉ chọn kết luận xử lý khi có mã phiếu kiểm định. Hai ô đơn vị/liên kết phiếu đã bỏ theo yêu cầu cửa hàng; dữ liệu cũ vẫn được giữ khi sửa món. Khách liên hệ cửa hàng để xem phiếu nếu chưa có liên kết công khai.
 7. Bật **Hiển thị trên catalogue** nếu muốn công bố; tắt để giữ sản phẩm trong trang quản trị.
 8. Bấm Lưu. Mở catalogue để kiểm tra ảnh, giá, ni và trạng thái.
 9. Sau giao dịch qua Zalo, sửa sang **Đã hết hàng**. Có thể để công bố như một mẫu đã bán hoặc ẩn.
@@ -104,3 +104,11 @@ Nếu đã chia sẻ mật khẩu database trong chat hoặc nơi không chủ �
 Bản Vercel dùng HTTPS và Supabase Auth trực tiếp, không dùng cổng đăng nhập ChatGPT của bản xem thử Sites. Metadata `.openai/hosting.json` chỉ ghi nhận bản xem thử riêng tư đã tạo, Vercel không sử dụng file đó. Toàn bộ chức năng chạy từ `dist/` và cùng nguồn dữ liệu Supabase.
 
 Tham khảo cấu hình chính thức: [Vercel — vercel.json](https://vercel.com/docs/project-configuration/vercel-json).
+
+## Cập nhật danh mục và kích thước hạt
+
+- Danh mục: Vòng chuỗi, Vòng bản, Nhẫn, Mặt dây / Hoa tai, Phụ kiện charm ngọc, Ngọc khác.
+- Vòng bản và nhẫn: nhập đường kính lòng trong theo mm. Vòng chuỗi: nhập **đường kính hạt** theo mm ở ô riêng; ghi chiều dài/chu vi phù hợp và đơn vị trong phần kích thước hoặc mô tả. Không dùng kích thước hạt để lọc ni lòng vòng.
+- Giá: dưới 500.000; 500.000 đến dưới 1.000.000; 1.000.000 đến hết 2.000.000; trên 2.000.000 VNĐ. Mỗi giá chỉ thuộc một nhóm.
+- Dự án hiện có đã được cập nhật bằng `database/migrations/20261026_catalogue.sql`, không chạy lại schema khởi tạo. Migration thêm hai giá trị enum, cột bead_diameter_mm và thay constraint trong transaction, không dựng lại bảng hay reset dữ liệu.
+- Các lệnh bảo trì `node scripts/database.mjs migrate-catalogue` và `reclassify-chains` nhận kết nối qua stdin ẩn như các lệnh cũ. Lệnh phân loại chỉ nhận danh sách SKU/số đo đã xác nhận; dừng và rollback toàn bộ nếu một món đã thay đổi. Không suy luận đơn vị hay kích thước hạt từ tên hàng.

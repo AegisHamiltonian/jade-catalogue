@@ -23,6 +23,15 @@ try{
   await client.query(await readFile(new URL('../database/storage.sql',import.meta.url),'utf8'));
   await client.query("notify pgrst, 'reload schema'");
   console.log(JSON.stringify({applied:true,products:(await client.query('select count(*)::int as count from public.products')).rows[0].count,adminCount:(await client.query('select count(*)::int as count from private.shop_admins')).rows[0].count}));
+ }else if(action==='migrate-catalogue'){
+  const policiesBefore=JSON.stringify((await client.query("select schemaname,tablename,policyname,roles,cmd,qual,with_check from pg_policies where schemaname in ('public','private','storage') order by 1,2,3")).rows);
+  await client.query(await readFile(new URL('../database/migrations/20261026_catalogue.sql',import.meta.url),'utf8'));
+  const policiesAfter=JSON.stringify((await client.query("select schemaname,tablename,policyname,roles,cmd,qual,with_check from pg_policies where schemaname in ('public','private','storage') order by 1,2,3")).rows);
+  if(policiesBefore!==policiesAfter)throw new Error('Access policies unexpectedly changed');
+  console.log(JSON.stringify({migrated:true,tlsAuthorized:client.connection.stream.authorized,policiesPreserved:true,products:(await client.query('select count(*)::int as count from public.products')).rows[0].count,categories:(await client.query("select enumlabel from pg_enum where enumtypid='public.product_category'::regtype order by enumsortorder")).rows.map(r=>r.enumlabel)}));
+ }else if(action==='reclassify-chains'){
+  const {reclassifyChains}=await import('./reclassify-chains.mjs');
+  console.log(JSON.stringify(await reclassifyChains(client,input.items)));
  }else if(action==='grant-admin'){
   if(typeof input.email!=='string'||!input.email.includes('@'))throw new Error('An existing Auth user email is required.');
   const result=await client.query('insert into private.shop_admins(user_id) select id from auth.users where lower(email)=lower($1) on conflict(user_id)do nothing returning user_id',[input.email]);

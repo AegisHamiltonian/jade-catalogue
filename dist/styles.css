@@ -29,6 +29,7 @@
 .guide-hotline{margin-top:14px}
 /* Let larger text wrap naturally in compact catalogue and navigation layouts. */
 .catalogue-meta,.sort-label,.active-filters{flex-wrap:wrap}
+.catalogue-tabs{flex-wrap:wrap;overflow:visible;gap:0 28px}
 .catalogue-meta{gap:10px 20px}
 .sort-label select{max-width:165px}
 .filter-bar{align-items:flex-start}
@@ -54,6 +55,7 @@
 @media(max-width:600px){
   input[type=search],.search-field input[type=search],.select-filters select,.sort-label select{font-size:16px}
   .catalogue-meta{align-items:flex-start}
+  .catalogue-tabs{gap:0 18px}
   .sort-label{gap:8px}
   .select-filters{justify-content:flex-start}
   .journal-card{grid-template-columns:96px minmax(0,1fr);column-gap:15px}

@@ -8,7 +8,7 @@ test('Vietnamese search finds names without accents and dotted SKUs',()=>{
  assert.equal(filterProducts(products,{q:'tu la lan'}).length,2);
 });
 test('category, availability, color, texture, price and size intersect',()=>{
- const result=filterProducts(products,{category:'vong',supply:'stock',color:'Xanh nhạt',texture:'Nếp băng',price:'2to5',size:54});
+ const result=filterProducts(products,{category:'vong',supply:'stock',color:'Xanh nhạt',texture:'Nếp băng',price:'over2',size:54});
  assert.deepEqual(result.map(p=>p.sku),['v052']);
  assert.equal(filterProducts(products,{size:54}).length,0);
  assert.equal(filterProducts(products,{category:'nhan',size:18.4}).length,1);
@@ -41,5 +41,6 @@ test('publication validation preserves pendant null sizing, integer money and ev
  assert.ok(validateProduct({...p,price_vnd:1.2}).length);
  assert.ok(validateProduct({...p,treatment:'a'}).length);
  assert.deepEqual(validateProduct({...p,treatment:'a',certificate_lab:'Lab',certificate_number:'G123',certificate_url:'https://example.com/cert.jpg'}),[]);
+ assert.deepEqual(validateProduct({...p,treatment:'a',certificate_number:'G123'}),[]);
  assert.ok(validateProduct({...p,category:'nhan',ni_tay:null}).length);
 });

@@ -28,13 +28,13 @@ Jade được dùng cho jadeite và nephrite. Không nên suy luận vật liệ
 
 GIA mô tả màu, độ trong và kết cấu là những yếu tố chính khi quan sát jadeite. Catalogue giữ tên thương mại “nếp mịn/nếp băng” nhưng không coi đó là chứng nhận. Vân, đặc điểm bề mặt và khuyết điểm cần mô tả từng món, kèm ảnh thật dưới các điều kiện sáng; không dùng một ảnh để khẳng định không xử lý. [GIA — Quality factors](https://www.gia.edu/jade-quality-factor)
 
-A/B/C nói về xử lý trong cách phân loại được sử dụng tại thị trường Trung Quốc: A tự nhiên hoặc chỉ đánh bóng sáp; B tẩy và ngấm polymer; C nhuộm. Không phải thang điểm đẹp hay thang giá. Form và constraint yêu cầu đơn vị, mã phiếu và URL tài liệu khi ghi kết luận xử lý. Yêu cầu này bảo đảm có tài liệu tham chiếu, không tự xác thực độ thật của phiếu. [GIA — B jade](https://www.gia.edu/FAQ/gia-faq-b-jade)
+A/B/C nói về xử lý trong cách phân loại được sử dụng tại thị trường Trung Quốc: A tự nhiên hoặc chỉ đánh bóng sáp; B tẩy và ngấm polymer; C nhuộm. Không phải thang điểm đẹp hay thang giá. Theo yêu cầu giản lược của cửa hàng ngày 26/10/2026, form và constraint chỉ yêu cầu mã phiếu khi ghi kết luận xử lý. Hai ô đơn vị/URL không còn trong form; dữ liệu cũ ở các cột này vẫn được giữ và hiển thị nếu có. Đây là thông tin cửa hàng công bố theo mã phiếu, website không tự xác thực độ thật của phiếu. [GIA — B jade](https://www.gia.edu/FAQ/gia-faq-b-jade)
 
 ### Ni vòng khác ni nhẫn
 
 Ni được định nghĩa duy nhất là **đường kính trong tính bằng milimét**. Vòng bầu cần ghi hai trục và dáng trong phần kích thước/mô tả; không ép một số ni tròn thành cam kết đeo vừa. Người chưa có ni nên được tư vấn đo bàn tay hoặc thử vòng. Đường kính vòng cứng cần đi qua bàn tay; chu vi cổ tay không tự cho ra ni. [Mason-Kay — Bangle sizing](https://www.mkjadejewelry.com/pages/bangle-size-info)
 
-Vì thế `ni_tay NOT NULL` cho tất cả loại trong đề xuất ban đầu là không đúng với mặt dây/ngọc khác. Bản sửa dùng `NULL` cho các loại không có ni, vẫn bắt buộc ni dương cho nhẫn/vòng. Cả UI và database kiểm tra điều kiện này. Bộ lọc ni chỉ hiện khi đã chọn loại nhẫn hoặc vòng.
+Vì thế `ni_tay NOT NULL` cho tất cả loại trong đề xuất ban đầu là không đúng với mặt dây/ngọc khác. Bản sửa dùng `NULL` cho các loại không có ni, vẫn bắt buộc ni dương cho nhẫn/vòng bản. Cả UI và database kiểm tra điều kiện này. Bộ lọc ni chỉ hiện khi đã chọn nhẫn hoặc vòng bản. Vòng chuỗi dùng bead_diameter_mm riêng cho đường kính hạt; ni_tay là NULL. Không trộn hai loại số đo.
 
 ### Chăm sóc
 
@@ -112,3 +112,13 @@ Toàn bộ bản ghi trước/sau được audit, kể cả khi xóa. Trang qu�
 - Liên kết chi tiết mở đúng món, nhưng metadata/ảnh chia sẻ hiện ở cấp thương hiệu. Nếu cần SEO/OG riêng từng SKU, cần prerender hoặc endpoint server tạo metadata từ cùng bảng; chưa được coi là đã triển khai.
 - Bucket ảnh/video là công khai: URL ảnh đã biết vẫn có thể mở khi sản phẩm bị ẩn. Không dùng bucket này cho tài liệu nội bộ hay dữ liệu khách. Ẩn sản phẩm là ẩn catalogue, không phải xóa media khỏi Internet.
 - Chưa có dịch vụ đơn hàng, thanh toán, giữ hàng, vận chuyển hoặc đồng bộ chat Zalo; đây là phạm vi chủ cửa hàng đã xác nhận, không phải các đường bị vô hiệu hóa để làm test qua.
+
+## Cập nhật danh mục và form theo yêu cầu cửa hàng
+
+Mã `vong` tiếp tục là đường dữ liệu duy nhất của vòng bản; `mat_day` được mở rộng nhãn thành Mặt dây / Hoa tai. Thêm `vong_chuoi` và `charm`; không có alias danh mục cũ/mới trong runtime. Những ảnh/sản phẩm và các URL SKU đang có được giữ nguyên.
+
+Ba món H26101900603 / H26101702302 / H26100799405 đã được chủ dự án xác nhận có số 5,8 / 6,5 / 10,2 là đường kính hạt lẻ. Chuyển chúng sang Vòng chuỗi, giữ các số này ở bead_diameter_mm và đặt ni_tay=NULL. Script khóa từng dòng và so checksum của toàn bộ trường còn lại trước/sau, giữ audit và timestamps của database.
+
+Nguồn quy tắc form-to-product duy nhất là productFromForm. Khi lưu món cũ, hai cột certificate_lab/certificate_url lấy từ bản ghi đang chỉnh, không bị FormData thiếu field biến thành NULL. Người dùng vẫn sửa mã phiếu/kết luận. Constraint mới giữ yêu cầu mã phiếu và HTTPS của URL đang lưu; Auth, membership và RLS không thay.
+
+Migration commit phần thêm enum trước khi dùng giá trị mới trong constraint, theo [PostgreSQL ALTER TYPE](https://www.postgresql.org/docs/17/sql-altertype.html). Không drop type, bảng, ảnh hay lịch sử sản phẩm.

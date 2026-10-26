@@ -6,7 +6,7 @@ begin;
 create schema if not exists private;
 revoke all on schema private from public, anon, authenticated;
 
-create type public.product_category as enum ('vong','nhan','mat_day','khac');
+create type public.product_category as enum ('vong_chuoi','vong','nhan','mat_day','charm','khac');
 create type public.supply_status as enum ('stock','order','sold');
 create type public.jade_material as enum ('unknown','jadeite','nephrite','other');
 create type public.jade_treatment as enum ('unknown','a','b','c','bc','other');
@@ -35,6 +35,7 @@ create table public.products (
   jade_color varchar(64),
   -- One convention: INNER DIAMETER IN MM. No US/ring-size-number conversion.
   ni_tay numeric(4,1),
+  bead_diameter_mm numeric(4,1),
   dimensions varchar(64),
   jade_material public.jade_material not null default 'unknown',
   treatment public.jade_treatment not null default 'unknown',
@@ -52,14 +53,13 @@ create table public.products (
   updated_at timestamptz not null default now(),
   constraint category_size check (
     (category in ('vong','nhan') and ni_tay is not null and ni_tay > 0)
-    or (category in ('mat_day','khac') and ni_tay is null)
+    or (category in ('vong_chuoi','mat_day','charm','khac') and ni_tay is null)
+  ),
+  constraint bead_size check (
+    bead_diameter_mm is null or (category='vong_chuoi' and bead_diameter_mm>0)
   ),
   constraint treatment_evidence check (
-    treatment = 'unknown' or (
-      nullif(btrim(certificate_lab),'') is not null and
-      nullif(btrim(certificate_number),'') is not null and
-      nullif(btrim(certificate_url),'') is not null
-    )
+    treatment = 'unknown' or nullif(btrim(certificate_number),'') is not null
   )
 );
 -- Case-insensitive SKU uniqueness, without creating a second SKU source.
