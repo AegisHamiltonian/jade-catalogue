@@ -33,6 +33,7 @@ Web phục vụ trực tiếp thư mục `dist/`, không cần build và không 
 - [Đề xuất nghiệp vụ và kiến trúc](docs/architecture.md)
 - [Hướng dẫn cấu hình và vận hành](docs/setup.md)
 - [Quy chuẩn giao diện và nguồn ảnh](docs/design.md)
+- [Đánh giá và cách dùng ảnh hướng dẫn ni](docs/sizing-images.md)
 - Schema cho dự án mới: `database/schema.sql`, tiếp theo `database/storage.sql`.
 - `dist/config.js` chỉ chứa cấu hình công khai và publishable key. Không chứa mật khẩu Postgres, `service_role`, `sb_secret_` hoặc mật khẩu đăng nhập.
 - Trong chế độ `preview`, dữ liệu mẫu được ghi rõ trên màn hình. Trong chế độ `supabase`, lỗi mạng hiển thị lỗi; không thay bằng hàng mẫu.

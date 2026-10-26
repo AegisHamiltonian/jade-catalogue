@@ -57,3 +57,15 @@ Mã catalogue hiện dùng `dataSource: 'supabase'`. Lỗi API thật không tr�
 - Ảnh popup được sửa `height:auto` để không bị giữ 800 px từ thuộc tính HTML. Trên mobile, khung ảnh đo được khoảng 300 × 261 px; thông số và toàn bộ nội dung vẫn có thể xem. Không tràn ngang trong dialog.
 - Kiểm tra ở viewport 390 px và 1440 px: chiều rộng nội dung bằng viewport khả dụng, không tràn ngang. Trang quản trị mobile cũng không tràn và vẫn hiển thị form đăng nhập thật.
 - 11/11 nhóm test hiện có qua sau đổi nhận diện; kiểm tra cú pháp và tham chiếu tài nguyên qua. Không sửa schema, dữ liệu sản phẩm hoặc quyền admin.
+
+## Ảnh hướng dẫn ni
+
+- Đọc trực tiếp cả 7 ảnh do khách cung cấp; dùng 6 ảnh rõ, không dùng bảng nhẫn 600 × 600 có thang Size/Ni khác mm. Chi tiết quyết định tại `sizing-images.md`.
+- Giữ nguyên hướng dẫn đo ni trước đó và bổ sung ba mục ảnh có thể mở/đóng, thông tin tham khảo được phân biệt với quy tắc dữ liệu sản phẩm.
+- 6 ảnh đầu ra WebP lossless có pixel giống hệt ảnh JPEG nguồn sau giải mã; giữ dấu nguồn. Không tạo lại ảnh bằng AI, không nội suy số đo.
+- Browser mobile/desktop: mở mục ảnh và lưới dáng vòng, không tràn ngang; ảnh có alt text và liên kết đọc bản đầy đủ; ảnh thực tế đã tải đủ.
+- Catalogue thật vẫn dùng Supabase; các thử nghiệm ảnh/guide không tạo hoặc sửa sản phẩm. Các nhóm kiểm tra mã hiện có đều qua.
+
+## Repo triển khai đang dùng
+
+Theo địa chỉ người dùng xác nhận, remote `origin` là `https://github.com/AegisHamiltonian/jade-catalogue.git`. Nhánh main giữ nguyên commit khởi tạo của repo đó, không force-push. Bản nhận diện Ngọc Nhà Lyn đã được xác nhận trên `https://jade-catalogue.vercel.app/`, cùng config nhóm Zalo và trang quản trị mới.
