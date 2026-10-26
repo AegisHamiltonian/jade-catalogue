@@ -29,6 +29,14 @@ try{
   const policiesAfter=JSON.stringify((await client.query("select schemaname,tablename,policyname,roles,cmd,qual,with_check from pg_policies where schemaname in ('public','private','storage') order by 1,2,3")).rows);
   if(policiesBefore!==policiesAfter)throw new Error('Access policies unexpectedly changed');
   console.log(JSON.stringify({migrated:true,tlsAuthorized:client.connection.stream.authorized,policiesPreserved:true,products:(await client.query('select count(*)::int as count from public.products')).rows[0].count,categories:(await client.query("select enumlabel from pg_enum where enumtypid='public.product_category'::regtype order by enumsortorder")).rows.map(r=>r.enumlabel)}));
+ }else if(action==='migrate-size'){
+  try{
+   await client.query(await readFile(new URL('../database/migrations/20261026_size_mm.sql',import.meta.url),'utf8'));
+   await client.query('drop trigger if exists products_size_mm on public.products');
+   await client.query(await readFile(new URL('../database/size-mm.sql',import.meta.url),'utf8'));
+   await client.query("notify pgrst, 'reload schema'");await client.query('commit');
+   console.log(JSON.stringify({migrated:true,tlsAuthorized:client.connection.stream.authorized,products:(await client.query('select count(*)::int as count from public.products')).rows[0].count,sizeRows:(await client.query('select sku,size_mm from public.products order by sku')).rows}));
+  }catch(error){await client.query('rollback');throw error;}
  }else if(action==='reclassify-chains'){
   const {reclassifyChains}=await import('./reclassify-chains.mjs');
   console.log(JSON.stringify(await reclassifyChains(client,input.items)));

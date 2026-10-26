@@ -111,3 +111,12 @@ Theo địa chỉ người dùng xác nhận, remote `origin` là `https://githu
 - Browser QA dùng repository giả lập trên host cục bộ riêng, không sửa repository thật hay gửi dữ liệu thử lên Supabase: form đủ 6 loại, hai ô đã bỏ không còn trong DOM, sửa hạt 5,8→6,5 và lưu kết luận theo mã phiếu thành công. Catalogue lọc chuỗi <500k đúng một món; 1–2 triệu có cả mốc 2 triệu, trên 2 triệu không chứa mốc đó.
 - Mobile 320 px: toàn bộ danh mục xuống dòng, các nút nằm trong khung; root scrollWidth = clientWidth = 305 px. Hướng dẫn chuỗi phân biệt đường kính hạt với ni lòng vòng; các hướng dẫn nhẫn/vòng bản giữ đầy đủ.
 - 17/17 kiểm thử tự động qua; kiểm tra cú pháp/tài nguyên và diff qua. Không thử tải media mới hoặc đăng nhập bằng mật khẩu thật của chủ cửa hàng cho lần cập nhật này.
+
+## Size chung và gỡ trích dẫn khỏi giao diện — 26/10/2026
+
+- Mọi danh mục có đúng một ô text Size (mm), không còn các ô ni/hạt/dimensions riêng. Thẻ, chi tiết, quản trị, tìm kiếm và nội dung hỏi món dùng cùng size_mm. Khối thông số chi tiết có một dòng Size (mm), không lặp kích thước.
+- Các đoạn nguồn trong hướng dẫn đo ni, nhẫn, chất ngọc và chăm sóc được gỡ. Không còn Tham khảo/tham khảo, Mason-Kay, Tiffany hoặc liên kết GIA trong HTML/JS công khai. Giữ 8 hình, 9 dòng bảng nhẫn, hướng dẫn đo và phần lưu ý độ vừa. Không sửa dấu nguồn bên trong ảnh gốc được cửa hàng cung cấp.
+- Migration thêm Size và ghép dữ liệu đang có, kiểm tra checksum toàn bộ trường cũ trừ updated_at; không xóa các cột số đo cũ. Dữ liệu thật vẫn đủ 3 món với Size Hạt 5,8 mm / Hạt 6,5 mm / Hạt 10,2 mm. Timestamp và audit ghi nhận thay đổi schema/data theo cơ chế cũ.
+- Kiểm thử từ schema trước cập nhật chứng minh dữ liệu cũ giữ nguyên, retry không hồi sinh Size đã xóa. Client/database tạo cùng chỉ số cho 54, 18,4, 18,45 và tiền tố Ni/Hạt; 54 × 12 × 7 không bị đọc nhầm là ni 54. Bộ lọc ni vẫn trả đúng các món xác định ni.
+- 20/20 kiểm thử tự động qua. Probe PostgreSQL thật kiểm tra admin lưu được số đo tự do, chỉnh Size rõ ni cập nhật chỉ số, sửa cột số cũ riêng lẻ bị chặn; quyền khách/user thường và rollback/membership được giữ. Kiểm tra cú pháp/tài nguyên và diff qua.
+- Browser QA cục bộ dùng repository giả lập, không ghi hàng thử lên Supabase: sửa Size thành 5,8 / 6,5, lưu và mở lại đúng nguyên văn; DOM chỉ có một input size_mm, không còn ba input cũ. Mobile 390 px hiển thị gọn. Hướng dẫn không còn liên kết nguồn ngoài, đủ 8 hình và 9 dòng bảng. Ảnh form QA chỉ là bằng chứng bố cục trên dữ liệu thử, không phải đăng nhập thực bằng tài khoản cửa hàng.

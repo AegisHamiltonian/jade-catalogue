@@ -35,7 +35,7 @@ test('catalogue tabs and admin options expose the same six categories and four p
 test('form round trips all six types and preserves stored certificate fields removed from the UI',()=>{
  for(const category of Object.keys(categoryNames)){
    const data=new FormData();
-   for(const [key,value]of Object.entries({sku:'qa1',title:'Món ngọc',category,supply:'stock',price_vnd:500000,batch_date:'2026-10-26',ni_tay:category==='nhan'?18.4:54,bead_diameter_mm:'6.5',jade_material:'jadeite',treatment:'a',certificate_number:'CERT-1'}))data.set(key,String(value));
+   for(const [key,value]of Object.entries({sku:'qa1',title:'Món ngọc',category,supply:'stock',price_vnd:500000,batch_date:'2026-10-26',size_mm:category==='nhan'?'18,4':category==='vong'?'54':category==='vong_chuoi'?'6,5':'12 × 8 × 4',jade_material:'jadeite',treatment:'a',certificate_number:'CERT-1'}))data.set(key,String(value));
    const editing={id:'product-id',certificate_lab:'Stored lab',certificate_url:'https://example.com/cert.jpg'};
    const product=productFromForm(data,{editing,images:['https://example.com/real.jpg'],published:true});
    assert.equal(product.certificate_lab,editing.certificate_lab);assert.equal(product.certificate_url,editing.certificate_url);
@@ -45,7 +45,7 @@ test('form round trips all six types and preserves stored certificate fields rem
    const fresh=productFromForm(data,{images:['https://example.com/real.jpg']});
    assert.equal(fresh.certificate_lab,null);assert.equal(fresh.certificate_url,null);assert.deepEqual(validateProduct(fresh),[]);
  }
- assert.equal(sizeLabel({category:'vong_chuoi',ni_tay:null,bead_diameter_mm:5.8}),'Hạt 5,8 mm');
+ assert.equal(sizeLabel({size_mm:'Hạt 5,8 mm'}),'Hạt 5,8 mm');
  assert.ok(validateProduct({...previewProducts[0],thumbnail_url:'https://example.com/a',category:'charm',ni_tay:null,bead_diameter_mm:6}).length);
 });
 

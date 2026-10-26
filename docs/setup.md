@@ -108,7 +108,14 @@ Tham khảo cấu hình chính thức: [Vercel — vercel.json](https://vercel.c
 ## Cập nhật danh mục và kích thước hạt
 
 - Danh mục: Vòng chuỗi, Vòng bản, Nhẫn, Mặt dây / Hoa tai, Phụ kiện charm ngọc, Ngọc khác.
-- Vòng bản và nhẫn: nhập đường kính lòng trong theo mm. Vòng chuỗi: nhập **đường kính hạt** theo mm ở ô riêng; ghi chiều dài/chu vi phù hợp và đơn vị trong phần kích thước hoặc mô tả. Không dùng kích thước hạt để lọc ni lòng vòng.
+- Mọi danh mục dùng một ô **Size (mm)**, nhập tự do theo món, ví dụ `5,8`, `12 × 8 × 4`, hoặc `Ni 54 mm · bản 12 × 7`. Vòng bản/nhẫn cần Size; các loại khác có thể để trống. Bộ lọc ni chỉ đọc số đơn hoặc tiền tố Ni rõ ràng, không đoán ni từ nhiều chiều.
 - Giá: dưới 500.000; 500.000 đến dưới 1.000.000; 1.000.000 đến hết 2.000.000; trên 2.000.000 VNĐ. Mỗi giá chỉ thuộc một nhóm.
 - Dự án hiện có đã được cập nhật bằng `database/migrations/20261026_catalogue.sql`, không chạy lại schema khởi tạo. Migration thêm hai giá trị enum, cột bead_diameter_mm và thay constraint trong transaction, không dựng lại bảng hay reset dữ liệu.
 - Các lệnh bảo trì `node scripts/database.mjs migrate-catalogue` và `reclassify-chains` nhận kết nối qua stdin ẩn như các lệnh cũ. Lệnh phân loại chỉ nhận danh sách SKU/số đo đã xác nhận; dừng và rollback toàn bộ nếu một món đã thay đổi. Không suy luận đơn vị hay kích thước hạt từ tên hàng.
+
+## Cập nhật Size chung và phần hướng dẫn
+
+- Sau migration danh mục, dùng `node scripts/database.mjs migrate-size` với kết nối qua stdin ẩn. Lệnh khóa bảng trong transaction, thêm size_mm, chuyển đầy đủ ni/hạt/kích thước cũ sang chuỗi Size, giữ nguyên các trường khác. Không chạy lại schema khởi tạo.
+- size_mm là nguồn nhập duy nhất. ni_tay và bead_diameter_mm được database suy ra để phục vụ lọc và kiểm tra số; dimensions cũ giữ nguyên để bảo toàn dữ liệu, không còn là ô nhập hay đường hiển thị thứ hai. Không sửa trực tiếp các trường số cũ.
+- Nhập số đơn hoặc ghi rõ `Ni 54 mm` cho vòng bản/nhẫn nếu cần lọc ni. Chuỗi nhiều chiều vẫn được lưu và hiển thị đủ; không tự lấy một chiều làm ni. Không tự chuyển cm sang mm.
+- Các trích dẫn nguồn và liên kết nghiên cứu đã gỡ khỏi nội dung hướng dẫn khách xem. Tài liệu nghiên cứu/nguồn gốc vẫn giữ trong docs; các hình và bảng hướng dẫn trên web vẫn còn.

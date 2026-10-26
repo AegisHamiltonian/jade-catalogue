@@ -1,6 +1,6 @@
 import { productFromForm } from './product-form.js';
 import { repository, isPreview } from './repository.js';
-import { money, categoryNames, usesDiameter, supplyNames, escapeHTML as e, safeMedia, normalize, validateProduct } from './catalogue.js';
+import { money, categoryNames, sizeLabel, supplyNames, escapeHTML as e, safeMedia, normalize, validateProduct } from './catalogue.js';
 const $=s=>document.querySelector(s);
 const form=$('#product-form');
 let products=[], editing=null, images=[], pending=0, dirty=false, user=null;
@@ -11,7 +11,7 @@ function setPending(delta){pending+=delta;$('#save-product').disabled=pending>0;
 function renderList(){
  const q=normalize($('#admin-search').value);
  const list=products.filter(p=>normalize(p.sku+' '+p.title).includes(q));
- $('#admin-list').innerHTML=list.length?list.map(p=>`<article class="admin-row"><img src="${e(safeMedia(p.thumbnail_url))}" alt="${e(p.title)}" width="72" height="72"><div><h3>${e(p.title)}</h3><p>${e(p.sku)} · ${e(categoryNames[p.category])}${p.bead_diameter_mm!=null?' · Hạt '+e(p.bead_diameter_mm)+' mm':p.ni_tay!=null?' · Ni '+e(p.ni_tay)+' mm':''}</p></div><span class="admin-price">${money(p.price_vnd)}</span><div class="status-label"><b>${e(supplyNames[p.supply])}</b><small class="${p.is_published?'':'unpublished'}">${p.is_published?'Đang hiển thị':'Đã ẩn trên catalogue'}</small></div><button class="button outline" data-edit="${e(p.id)}">Chỉnh sửa</button></article>`).join(''):'<div class="empty-state"><h3>Chưa có món ngọc nào.</h3><p>Đăng món mới hoặc thử tìm một mã khác.</p></div>';
+ $('#admin-list').innerHTML=list.length?list.map(p=>`<article class="admin-row"><img src="${e(safeMedia(p.thumbnail_url))}" alt="${e(p.title)}" width="72" height="72"><div><h3>${e(p.title)}</h3><p>${e(p.sku)} · ${e(categoryNames[p.category])}${p.size_mm?' · Size: '+e(sizeLabel(p)):''}</p></div><span class="admin-price">${money(p.price_vnd)}</span><div class="status-label"><b>${e(supplyNames[p.supply])}</b><small class="${p.is_published?'':'unpublished'}">${p.is_published?'Đang hiển thị':'Đã ẩn trên catalogue'}</small></div><button class="button outline" data-edit="${e(p.id)}">Chỉnh sửa</button></article>`).join(''):'<div class="empty-state"><h3>Chưa có món ngọc nào.</h3><p>Đăng món mới hoặc thử tìm một mã khác.</p></div>';
 }
 async function reload(){products=await repository.adminList();renderList();}
 async function login(event){
@@ -21,12 +21,7 @@ async function login(event){
  catch(err){await repository.signOut().catch(()=>{});user=null;$('#login-message').textContent=err.message;}
  finally{button.disabled=false;}
 }
-function updateSizeField(){
- const category=field('category').value,applies=usesDiameter(category),beads=category==='vong_chuoi';
- $('#admin-size-field').hidden=!applies;field('ni_tay').required=applies;field('ni_tay').disabled=!applies;if(!applies)field('ni_tay').value='';
- $('#admin-bead-field').hidden=!beads;field('bead_diameter_mm').disabled=!beads;if(!beads)field('bead_diameter_mm').value='';
- field('dimensions').placeholder=beads?'Hạt 6 mm · vòng 16 cm':'Rộng 12 × dày 7 mm';
-}
+function updateSizeField(){field('size_mm').required=['vong','nhan'].includes(field('category').value);}
 function renderMedia(){
  $('#media-previews').innerHTML=images.map((url,i)=>`<div class="media-preview"><img src="${e(safeMedia(url))}" alt="Ảnh sản phẩm ${i+1}"><span>${i===0?'Ảnh đại diện':'Ảnh '+(i+1)}</span>${i>0?`<button type="button" data-cover="${i}">Đặt làm đại diện</button>`:''}<button type="button" data-remove-media="${i}">Gỡ khỏi sản phẩm</button></div>`).join('');
 }

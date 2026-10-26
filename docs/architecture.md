@@ -122,3 +122,13 @@ Ba món H26101900603 / H26101702302 / H26100799405 đã được chủ dự án 
 Nguồn quy tắc form-to-product duy nhất là productFromForm. Khi lưu món cũ, hai cột certificate_lab/certificate_url lấy từ bản ghi đang chỉnh, không bị FormData thiếu field biến thành NULL. Người dùng vẫn sửa mã phiếu/kết luận. Constraint mới giữ yêu cầu mã phiếu và HTTPS của URL đang lưu; Auth, membership và RLS không thay.
 
 Migration commit phần thêm enum trước khi dùng giá trị mới trong constraint, theo [PostgreSQL ALTER TYPE](https://www.postgresql.org/docs/17/sql-altertype.html). Không drop type, bảng, ảnh hay lịch sử sản phẩm.
+
+## Quyết định hiện hành: một Size (mm) cho mọi danh mục
+
+Theo yêu cầu tiếp theo của chủ cửa hàng, Size là nội dung tự do theo từng món. size_mm varchar(150) là nguồn duy nhất cho form, thẻ, chi tiết, tìm kiếm và nội dung hỏi món. Mọi thông số ni/hạt/kích thước có sẵn được ghép vào Size trong migration, không mất số đo hoặc phần mô tả cũ.
+
+Chỉ số ni_tay và bead_diameter_mm do một trigger database đồng bộ từ Size. Số đơn hoặc tiền tố Ni/Hạt rõ ràng được đọc theo danh mục; nhiều chiều không có ni tường minh thì không tạo chỉ số ni giả. Số thập phân không bị làm tròn về một chữ số. Ni của vòng bản/nhẫn vẫn là đường kính trong; kích thước hạt không được trộn vào bộ lọc ni.
+
+Constraint hiện hành cho vòng bản/nhẫn yêu cầu Size có nội dung; chỉ số ni có thể NULL khi Size không xác định một đường kính. Mọi danh mục giữ được nội dung nhiều chiều. Callback form, API và trigger cùng đường dữ liệu này, không có nhánh đọc số đo cũ làm Size dự phòng. Các cột cũ được giữ để bảo toàn lịch sử; không xóa ảnh, SKU, giá hoặc cấu trúc RLS.
+
+Các đoạn trích dẫn nguồn được gỡ khỏi giao diện công khai theo yêu cầu. Bản nghiên cứu này và tài liệu nguồn ảnh giữ dấu vết kiểm chứng, không nằm trong dist.

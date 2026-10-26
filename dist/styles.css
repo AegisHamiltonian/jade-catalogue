@@ -36,6 +36,7 @@
 .select-filters{justify-content:flex-end;row-gap:8px}
 .search-field{flex-shrink:0;min-width:215px}
 .detail-specs dd{overflow-wrap:anywhere}
+.product-attributes span{max-width:100%;min-width:0;overflow-wrap:anywhere}
 .detail-specs>div{font-size:15px}
 .detail-copy .description{font-size:16px}
 .journal-card>p,.contact-band p:not(.eyebrow){font-size:15px}

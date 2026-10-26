@@ -23,7 +23,7 @@ export async function verifyLiveRLS(client,email){
   check(caught.code,'42501');
  };
  try{
-  await client.query("insert into public.products(sku,title,category,supply,ni_tay,price_vnd,thumbnail_url,is_published)values($1,'Temporary uncommitted public probe','vong','stock',54,1,'https://example.invalid/qa.webp',true),($2,'Temporary uncommitted hidden probe','mat_day','sold',null,1,'https://example.invalid/qa.webp',false)",[publicSku,hiddenSku]);
+  await client.query("insert into public.products(sku,title,category,supply,size_mm,price_vnd,thumbnail_url,is_published)values($1,'Temporary uncommitted public probe','vong','stock','54',1,'https://example.invalid/qa.webp',true),($2,'Temporary uncommitted hidden probe','mat_day','sold',null,1,'https://example.invalid/qa.webp',false)",[publicSku,hiddenSku]);
   await role('anon');
   check((await client.query('select sku from public.products where sku in($1,$2) order by sku',[publicSku,hiddenSku])).rows.map(r=>r.sku),[publicSku]);
   check((await client.query('select public.is_shop_admin() as yes')).rows[0].yes,false);
@@ -47,12 +47,16 @@ export async function verifyLiveRLS(client,email){
   await client.query("insert into storage.objects(bucket_id,name)values('product-media',$1)",['qa/'+suffix+'.webp']);
   check((await client.query("select name from storage.objects where name=$1",['qa/'+suffix+'.webp'])).rowCount,1);
   await denied('select * from private.product_audit');
-  await client.query("insert into public.products(sku,title,category,bead_diameter_mm,price_vnd,thumbnail_url,treatment,certificate_number)values($1,'Uncommitted bead size probe','vong_chuoi',5.8,500000,'https://example.invalid/bead.webp','a','QA-CERT')",[chainSku]);
+  await client.query("insert into public.products(sku,title,category,size_mm,price_vnd,thumbnail_url,treatment,certificate_number)values($1,'Uncommitted bead size probe','vong_chuoi','5,8',500000,'https://example.invalid/bead.webp','a','QA-CERT')",[chainSku]);
   const chain=(await client.query('select ni_tay,bead_diameter_mm,certificate_lab,certificate_number,certificate_url from public.products where sku=$1',[chainSku])).rows[0];
   check(chain.ni_tay,null);check(Number(chain.bead_diameter_mm),5.8);check(chain.certificate_number,'QA-CERT');check(chain.certificate_lab,null);check(chain.certificate_url,null);
   await client.query('savepoint invalid_chain_diameter');let rejected;
   try{await client.query('update public.products set ni_tay=54 where sku=$1',[chainSku]);}catch(error){rejected=error;}
-  await client.query('rollback to savepoint invalid_chain_diameter');check(rejected?.code,'23514');
+  await client.query('rollback to savepoint invalid_chain_diameter');check(!!rejected?.message.includes('Use Size'),true);
+  const flexible=(await client.query('update public.products set size_mm=$1 where sku=$2 returning size_mm,bead_diameter_mm',['5,8 / 6,5',chainSku])).rows[0];
+  check(flexible.size_mm,'5,8 / 6,5');check(flexible.bead_diameter_mm,null);
+  check((await client.query('update public.products set size_mm=$1 where sku=$2 returning ni_tay',['54 × 12 × 7',publicSku])).rows[0].ni_tay,null);
+  check(Number((await client.query('update public.products set size_mm=$1 where sku=$2 returning ni_tay',['Ni 54 mm · bản 12 × 7',publicSku])).rows[0].ni_tay),54);
   check((await client.query('delete from public.products where sku=$1 returning sku',[hiddenSku])).rowCount,1);
   await client.query('reset role');
   await client.query('delete from private.shop_admins where user_id=$1',[admin.user_id]);

@@ -26,12 +26,11 @@ export function renderRingSizingGuide() {
         </article>
         <table class="ring-size-table">
           <caption>Đối chiếu đường kính & chu vi lòng nhẫn tròn</caption>
-          <thead><tr><th scope="col">Đường kính trong<br><span>Ni nhẫn trên web · mm</span></th><th scope="col">Chu vi lòng trong<br><span>Xấp xỉ · mm</span></th></tr></thead>
+          <thead><tr><th scope="col">Đường kính trong<br><span>Size lòng nhẫn · mm</span></th><th scope="col">Chu vi lòng trong<br><span>Xấp xỉ · mm</span></th></tr></thead>
           <tbody>${ringSizeRows.map(({diameter,circumference}) => `<tr${diameter===18.4?' class="ring-size-example"':''}><th scope="row">${mm(diameter)}</th><td>${mm(circumference)}</td></tr>`).join('')}</tbody>
         </table>
         <p class="ring-formula">Chu vi ≈ π × đường kính, làm tròn 0,1 mm. Ví dụ: 18,4 mm tương ứng chu vi lòng trong khoảng 57,8 mm. Bảng này dùng mm, không phải cỡ US hay hệ ni khác.</p>
         <p class="sizing-warning">Đo bằng thước thật, không đo theo hình trên màn hình. Đo lại ở vài thời điểm; bản nhẫn rộng và khớp ngón ảnh hưởng độ vừa. Số đo giấy chỉ giúp ước lượng, cần xác nhận với Lyn trước khi chọn.</p>
-        <p class="sizing-source">Tham khảo cách đo ngón tay và lòng nhẫn: <a href="https://www.tiffany.com/size-guide/" target="_blank" rel="noopener noreferrer">Tiffany & Co. ↗</a>. Các giá trị chu vi trong bảng được tính từ đường kính theo công thức trên.</p>
       </div>
     </details>
   </section>`;

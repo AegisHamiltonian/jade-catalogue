@@ -1,4 +1,5 @@
 import { config } from './config.js';
+import {sizeNumbers,formatSize} from './product-size.js';
 export const categoryNames = { vong_chuoi: 'Vòng chuỗi', vong: 'Vòng bản', nhan: 'Nhẫn', mat_day: 'Mặt dây / Hoa tai', charm: 'Phụ kiện charm ngọc', khac: 'Ngọc khác' };
 export const usesDiameter = category => ['vong','nhan'].includes(category);
 export const priceRanges = Object.freeze({
@@ -25,7 +26,7 @@ export function filterProducts(products, filters = {}) {
     (!filters.color || p.jade_color === filters.color) &&
     (!filters.texture || p.jade_texture === filters.texture) &&
     (!filters.savedOnly || filters.saved?.includes(p.id)) &&
-    (!q || normalize([p.sku, p.title, p.jade_color, p.jade_texture, categoryNames[p.category]].join(' ')).includes(q)) &&
+    (!q || normalize([p.sku, p.title, p.size_mm, p.jade_color, p.jade_texture, categoryNames[p.category]].join(' ')).includes(q)) &&
     (!range || ((range.includeMin===false ? p.price_vnd > range.min : p.price_vnd >= range.min) && (range.includeMax ? p.price_vnd <= range.max : p.price_vnd < range.max))) &&
     // Size is category-scoped: never mix ring and bangle diameters.
     (!filters.size || (usesDiameter(filters.category) && p.ni_tay != null && Math.abs(Number(p.ni_tay) - Number(filters.size)) <= 0.5)));
@@ -35,8 +36,7 @@ export function groupByBatch(products) {
   return products.reduce((groups, p) => { (groups[p.batch_date] ??= []).push(p); return groups; }, {});
 }
 export function sizeLabel(p) {
-  if(p.category==='vong_chuoi' && p.bead_diameter_mm!=null) return `Hạt ${Number(p.bead_diameter_mm).toLocaleString('vi-VN',{maximumFractionDigits:1})} mm${p.dimensions?' · '+p.dimensions:''}`;
-  return p.ni_tay == null ? (p.dimensions || 'Xem kích thước') : `Ni ${Number(p.ni_tay).toLocaleString('vi-VN', { maximumFractionDigits: 1 })} mm`;
+  return formatSize(p.size_mm);
 }
 export function inquiryText(p, url) {
   const prefix = p.supply === 'sold' ? 'Em muốn tìm một mẫu tương tự' : p.supply === 'order' ? 'Em muốn hỏi thời gian và điều kiện đặt mẫu' : 'Em muốn xem thêm ảnh/video và hỏi tình trạng';
@@ -52,9 +52,10 @@ export function validateProduct(p) {
   if (!Object.hasOwn(categoryNames, p.category)) errors.push('Loại sản phẩm không hợp lệ.');
   if (!Object.hasOwn(supplyNames, p.supply)) errors.push('Tình trạng không hợp lệ.');
   if (!Number.isSafeInteger(p.price_vnd) || p.price_vnd <= 0) errors.push('Giá cần là số nguyên VNĐ lớn hơn 0.');
-  if (usesDiameter(p.category) && (!Number.isFinite(p.ni_tay) || p.ni_tay <= 0 || p.ni_tay >= 1000)) errors.push('Nhẫn và vòng bản cần đường kính trong tính bằng mm.');
-  if (!usesDiameter(p.category) && p.ni_tay !== null) errors.push('Danh mục này không dùng ni đường kính trong.');
-  if (p.bead_diameter_mm!=null && (p.category!=='vong_chuoi' || !Number.isFinite(p.bead_diameter_mm) || p.bead_diameter_mm<=0 || p.bead_diameter_mm>=1000)) errors.push('Đường kính hạt dành cho vòng chuỗi, tính bằng mm và lớn hơn 0.');
+  if (p.size_mm!=null && (typeof p.size_mm!=='string'||p.size_mm.length>150)) errors.push('Size tối đa 150 ký tự.');
+  if (usesDiameter(p.category) && !String(p.size_mm??'').trim()) errors.push('Cần nhập Size (mm) cho nhẫn hoặc vòng bản.');
+  const numbers=sizeNumbers(p.category,p.size_mm);
+  if(!numbers.valid || (p.ni_tay??null)!==numbers.ni_tay || (p.bead_diameter_mm??null)!==numbers.bead_diameter_mm) errors.push('Số đo không khớp với Size (mm).');
   if (!safeMedia(p.thumbnail_url)) errors.push('Cần một ảnh đại diện HTTPS hợp lệ.');
   if (p.gallery_urls?.some(url => !safeMedia(url))) errors.push('Ảnh thư viện cần dùng URL HTTPS hợp lệ.');
   if (p.video_url && !safeMedia(p.video_url)) errors.push('Video cần dùng URL HTTPS hợp lệ.');

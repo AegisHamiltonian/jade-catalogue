@@ -42,5 +42,5 @@ test('publication validation preserves pendant null sizing, integer money and ev
  assert.ok(validateProduct({...p,treatment:'a'}).length);
  assert.deepEqual(validateProduct({...p,treatment:'a',certificate_lab:'Lab',certificate_number:'G123',certificate_url:'https://example.com/cert.jpg'}),[]);
  assert.deepEqual(validateProduct({...p,treatment:'a',certificate_number:'G123'}),[]);
- assert.ok(validateProduct({...p,category:'nhan',ni_tay:null}).length);
+ assert.ok(validateProduct({...p,category:'nhan',ni_tay:null,size_mm:null}).length);
 });
