@@ -94,3 +94,9 @@ Theo địa chỉ người dùng xác nhận, remote `origin` là `https://githu
 - Kiểm tra với host dữ liệu thử riêng: tìm SKU n188 trả 1 món; popup chi tiết mở được, thông số và giá đọc rõ, không tràn ngang. Không thêm dữ liệu thử vào Supabase. Ở mobile: tên thẻ 18 px, thông số phụ 13 px, giá 15 px, bộ lọc 16 px; mô tả chi tiết và hướng dẫn 16 px.
 - Hướng dẫn nhẫn vẫn mở được, bảng đủ 9 dòng; dialog 320 px có clientWidth = scrollWidth = 281 px sau khi nới phần đọc. Các ảnh/hướng dẫn vòng tay và liên kết nhóm/hotline giữ nguyên.
 - 13/13 kiểm thử hiện có qua; cú pháp và tham chiếu tài nguyên qua. Không thêm test chỉ để khóa các giá trị CSS; kiểm tra bố cục trực tiếp bằng trình duyệt.
+
+## Sửa huy hiệu nhận diện bị tràn chữ — 26/10/2026
+
+- Nguyên nhân: khung tròn cố định 83–99 px cùng text node/br trong flex column không chứa được chữ lớn hơn. Thay trong đúng thành phần bằng dải nhận diện dưới ảnh, tên và dòng phụ có phần tử/cấp chữ riêng. Bốn quy tắc CSS vòng tròn cũ được thay bởi một bố cục chung; nội dung tên/dòng phụ được giữ đủ, không còn caller nào dùng kiểu huy hiệu cũ.
+- Browser desktop 1280 px và mobile 320 px: tên và dòng phụ đều nằm trong dải nhận diện. Mobile: root clientWidth = scrollWidth = 305 px, tên 20 px, toàn bộ chữ nằm trong khung cao tự nhiên 84,4 px. Ảnh không còn bị huy hiệu che, phần nội dung và CTA nhóm Zalo giữ nguyên.
+- Kiểm tra cú pháp/tham chiếu tài nguyên và git diff --check qua. Không sửa JavaScript, dữ liệu, phân quyền hoặc chức năng quản trị; không thêm test chỉ sao chép quy tắc CSS.

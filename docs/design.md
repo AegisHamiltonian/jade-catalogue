@@ -24,6 +24,8 @@ Cập nhật theo phản hồi khách: chữ nền 16 px trên desktop, 15 px tr
 
 Khối đầu trang dùng hai cột có khoảng cách rõ, cùng trục căn cho nhãn, tiêu đề, mô tả và nút. Đoạn mô tả tự ngắt dòng theo chiều rộng; chú thích không bị đẩy xa xuống đáy. Ở màn hình nhỏ, khối này căn giữa. Giá và nút chi tiết được xuống dòng khi cần; giữ đủ tìm kiếm/lưu món/menu ở chiều rộng 320 px. Dialog hướng dẫn được nới phần đọc, giữ đầy đủ bảng và hình.
 
+Phần câu chuyện dùng dải nhận diện nằm dưới ảnh: biểu tượng ngọc nhỏ, tên serif 20 px và dòng phụ riêng. Cùng một bố cục tự co giãn trên mọi màn hình; thay huy hiệu tròn cố định đã làm chữ tràn sau khi tăng cỡ. Giữ nguyên “Ngọc Nhà Lyn” và “NGỌC & DUYÊN”, không đặt chữ đè lên ảnh.
+
 Đã clone repo [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill), tham chiếu commit `d14efff8ed1faa4187f004f79926f428c8074ec7`. Truy vấn typography trả về Luxury Serif (Cormorant/Montserrat) và Luxury Minimalist (Bodoni/Jost). Chọn nguyên tắc serif + sans nhưng điều chỉnh thành Lora/Be Vietnam Pro để phục vụ nội dung Việt. Gợi ý glassmorphism từ bộ dữ liệu không được chọn vì không phù hợp yêu cầu của cửa hàng. Không cài tự động toàn bộ repo như một plugin.
 
 ## Bố cục và tương tác
