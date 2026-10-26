@@ -1,5 +1,7 @@
 # Đánh giá ảnh hướng dẫn ni do cửa hàng cung cấp
 
+> Cập nhật: theo yêu cầu dựng lại của khách, phần nhẫn đã được bổ sung bằng hình mới và bảng mm được kiểm tra riêng. Xem [hướng dẫn nhẫn và nguồn số liệu](ring-sizing.md). Sáu ảnh vòng tay dưới đây vẫn giữ nguyên; bảng nhẫn mờ gốc không được dùng làm bảng quy đổi.
+
 Đã xem trực tiếp cả 7 ảnh trong thư mục `Đo ni`. Không tạo ảnh mới, không xóa dấu nguồn, không suy ra số đo mới bằng AI. Sáu ảnh được đưa vào đúng mục hướng dẫn ni hiện có; nội dung đo vòng/nhẫn theo mm trước đó vẫn giữ nguyên.
 
 | Ảnh nguồn | Kích thước | Nội dung | Quyết định |

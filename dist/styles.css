@@ -28,6 +28,28 @@
 
 .guide-hotline{margin-top:14px}
 .sizing-references{margin-top:28px;padding-top:2px;border-top:1px solid var(--line)}
+.ring-sizing{margin:20px 0 24px}
+.ring-reference summary{font-size:13px}
+.ring-method{padding:5px 0 20px;margin-bottom:20px;border-bottom:1px solid var(--line)}
+.ring-method-heading{display:flex;align-items:center;gap:12px;margin:0 0 12px}
+.ring-method-heading>span{color:var(--accent);font-size:11px;letter-spacing:1px}
+.ring-method-heading h4{font-family:var(--serif);font-size:20px;font-weight:400;line-height:1.5;margin:0}
+.ring-method img{width:100%;height:auto;object-fit:contain;margin-bottom:14px;border:1px solid var(--line)}
+.ring-method-visual{display:block;margin-bottom:14px}
+.ring-method-visual img{margin-bottom:0}
+.ring-method-visual span{display:inline-block;padding:6px 0;font-size:11px;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.guide-dialog .ring-method p{font-size:12px;line-height:1.9;margin:0 0 10px}
+.guide-dialog .ring-method .ring-example{background:var(--accent-soft);color:var(--accent);padding:10px 12px;margin-bottom:0}
+.ring-size-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px;font-variant-numeric:tabular-nums;border:1px solid var(--line);margin:0 0 13px}
+.ring-size-table caption{text-align:left;font-family:var(--serif);font-size:21px;line-height:1.5;color:var(--ink);padding:0 0 13px}
+.ring-size-table th,.ring-size-table td{border-bottom:1px solid var(--line);padding:10px 12px;text-align:center;font-weight:400}
+.ring-size-table thead{background:var(--accent);color:var(--paper)}
+.ring-size-table thead span{font-size:10px;display:block;opacity:.9;line-height:1.7}
+.ring-size-table tbody tr:nth-child(even){background:var(--cream)}
+.ring-size-table tbody .ring-size-example{background:var(--accent-soft);color:var(--accent)}
+.guide-dialog .ring-formula{font-size:11px;line-height:1.9}
+.ring-sizing .sizing-source a{text-decoration:underline;text-underline-offset:3px}
+@media(max-width:600px){.ring-method-heading h4{font-size:19px}.ring-size-table{font-size:12px}.ring-size-table th,.ring-size-table td{padding:9px 7px}.ring-size-table thead span{font-size:9px}.ring-size-table caption{font-size:20px}.guide-dialog .ring-formula{font-size:12px}}
 .sizing-reference{margin-top:12px;border:1px solid var(--line);background:var(--paper)}
 .sizing-reference summary{padding:13px 15px;min-height:48px;cursor:pointer;color:var(--accent);font-size:12px;line-height:1.8;background:var(--cream)}
 .sizing-reference[open] summary{border-bottom:1px solid var(--line)}

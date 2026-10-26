@@ -78,3 +78,11 @@ Theo địa chỉ người dùng xác nhận, remote `origin` là `https://githu
 - Hướng dẫn ni mở được, vẫn đủ 3 mục và 6 ảnh. Nhóm Zalo và hotline giữ đúng liên kết. Không thay cấu hình Supabase, schema, quyền admin hoặc dữ liệu sản phẩm.
 - Tương phản trên nền #fcfbf8: chữ chính 11,27:1, xanh chính 9,02:1, chữ phụ 4,81:1, chữ nghiêng 5,47:1. Đây là kiểm tra bảng màu, không phải tuyên bố audit toàn bộ WCAG.
 - `npm test`: 11/11 qua; `npm run check`: qua; `git diff --check`: qua. Không thực hiện đăng nhập hay ghi dữ liệu bằng tài khoản chủ cửa hàng cho thay đổi giao diện này.
+
+## Hướng dẫn ni nhẫn được dựng lại — 26/10/2026
+
+- Hai hình thao tác mới bằng image_gen tích hợp: đo lòng nhẫn và quấn giấy đo ngón tay. Giữ tông xanh/ngà, không chứa chữ hoặc số do AI sinh; bảng và hướng dẫn dùng HTML thật. Ảnh nguồn và prompt cuối lưu trong design/ring-sizing và docs/ring-sizing.md.
+- Bảng cũ ghép đường kính 18 mm với chu vi 59–62 mm không được coi là phép quy đổi đúng. Bảng mới có 9 dòng theo mm, chu vi được tính từ π × đường kính và làm tròn 0,1 mm; các cặp đã được khóa bằng kiểm thử giá trị cụ thể. Không chuyển cỡ US/JP thành ni web.
+- Module mới được gọi ngay trong hướng dẫn size hiện có. Ba mục và sáu ảnh vòng tay vẫn giữ nguyên, không sửa sản phẩm, dữ liệu hay quyền truy cập. Tất cả các điểm mở hướng dẫn tiếp tục dùng cùng một dialog.
+- Browser desktop và mobile 390 px: mục nhẫn mở/đóng được, hai ảnh tải đúng kích thước, có liên kết xem lớn; bảng HTML đủ 9 dòng. Mobile đo được dialog clientWidth = scrollWidth = 328 px; không tràn ngang.
+- `npm test`: 13/13 qua, gồm 11 kiểm thử hiện có cùng kiểm tra số liệu và đường nối hướng dẫn mới; kiểm tra cú pháp/tham chiếu tài nguyên qua. Không đăng nhập hoặc ghi database cho thay đổi này.
