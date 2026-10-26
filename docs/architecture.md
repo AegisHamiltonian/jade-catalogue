@@ -1,6 +1,6 @@
-# Nghiên cứu nghiệp vụ và kiến trúc Ngân Giang
+# Nghiên cứu nghiệp vụ và kiến trúc Ngọc Nhà Lyn
 
-Ngày tổng hợp: 26/10/2026. Phạm vi đã được xác nhận: **catalogue xem thông tin, còn/hết hàng; toàn bộ tư vấn và giao dịch qua Zalo; chỉ chủ cửa hàng quản trị**.
+Ngày tổng hợp: 26/10/2026. Phạm vi đã được xác nhận: **catalogue xem thông tin, còn/hết hàng; xem hàng và hỏi món trong nhóm Zalo; liên hệ trực tiếp qua hotline; chỉ chủ cửa hàng quản trị**. Website dùng nhận diện Ngọc Nhà Lyn, nhóm `https://zalo.me/g/bafpcs297`, hotline `0979628889`.
 
 ## 1. Kiểm tra bảo toàn chức năng
 
@@ -48,7 +48,7 @@ flowchart LR
     B --> C[Lọc loại / ni / giá / màu / trạng thái]
     C --> D[Chi tiết đúng SKU]
     D --> E[Sao chép mã + câu hỏi + URL]
-    E --> F[Zalo cửa hàng]
+    E --> F[Nhóm Zalo Ngọc Nhà Lyn]
     F --> G[Người bán tư vấn và giao dịch]
     H[Chủ cửa hàng đăng nhập] --> I[Auth và membership admin]
     I --> J[Thêm ảnh / sửa thông số / đổi trạng thái]
@@ -58,7 +58,7 @@ flowchart LR
 
 Thẻ sản phẩm ưu tiên ảnh → tên/mã → ni/chất → giá, có nhãn tình trạng bằng chữ. Chi tiết bổ sung kích thước, vật liệu, xử lý, kiểm định, thư viện và video nếu có. Hàng hết vẫn có thể công bố để tham khảo; CTA đổi sang hỏi mẫu tương tự. Hàng nhận đặt có CTA hỏi thời gian/điều kiện, không khiến khách tưởng sẵn hàng.
 
-Liên kết từng món dùng `?san-pham=SKU`, không bị mất khi mở lại. Nội dung hỏi món phải được sao chép rồi dán vào Zalo; không dùng tham số tiền điền không được Zalo xác nhận hỗ trợ. Website không tự gửi tin nhắn.
+Liên kết từng món dùng `?san-pham=SKU`, không bị mất khi mở lại. Nội dung hỏi món phải được sao chép rồi dán vào nhóm Zalo; không dùng tham số tiền điền không được Zalo xác nhận hỗ trợ. Website không tự gửi tin nhắn và không tự tham gia nhóm. Khách cần liên hệ trực tiếp có thể gọi hotline.
 
 ## 5. Kiến trúc được chọn
 

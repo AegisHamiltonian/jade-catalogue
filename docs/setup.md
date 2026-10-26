@@ -1,6 +1,6 @@
 # Cấu hình và sử dụng cửa hàng
 
-## Trạng thái đã cấu hình cho Ngân Giang
+## Trạng thái đã cấu hình cho Ngọc Nhà Lyn
 
 Đã thực hiện các bước khởi tạo bên dưới trên project `rqbyaiqdhbvtssnanoap` ngày 26/10/2026. **Không chạy lại schema.sql hoặc storage.sql trên project này.** Đã tạo bảng, trigger, index, policy, bucket và membership cho tài khoản chủ cửa hàng đã chỉ định. `dist/config.js` đã ở chế độ `supabase`.
 
@@ -48,8 +48,9 @@ Sửa `dist/config.js`:
 
 ```js
 export const config = Object.freeze({
-  brand: 'Ngân Giang',
+  brand: 'Ngọc Nhà Lyn',
   phone: '0979628889',
+  zaloGroupUrl: 'https://zalo.me/g/bafpcs297',
   dataSource: 'supabase',
   supabaseUrl: 'https://PROJECT_REF.supabase.co',
   supabasePublishableKey: 'sb_publishable_...',
@@ -83,7 +84,7 @@ Mã sản phẩm phân biệt với tên: không dùng lại cùng mã cho món 
 - Một user thường không thể POST/PATCH/DELETE sản phẩm và không upload media, kể cả qua API.
 - User chủ cửa hàng thêm/sửa/ẩn/đổi trạng thái/tải ảnh được; tải lại trang và đăng nhập lại vẫn thấy dữ liệu.
 - Sau thu hồi membership, request tiếp theo không ghi được.
-- Điện thoại thật mở Zalo đúng số; sao chép mã và URL, dán vào cuộc trò chuyện và xác nhận đã nhận đúng mã. Không gửi tin nhắn tự động.
+- Các nút Zalo mở đúng nhóm `https://zalo.me/g/bafpcs297`; sao chép mã và URL rồi dán vào nhóm khi người dùng muốn hỏi. Liên hệ trực tiếp dùng hotline `0979628889`. Không gửi tin nhắn tự động.
 - Không chuyển dữ liệu minh họa thành hàng đang bán. Nếu database chưa có sản phẩm, catalogue thật phải hiện trạng thái trống rõ ràng.
 
 ## 6. Vận hành
@@ -97,7 +98,7 @@ Nếu đã chia sẻ mật khẩu database trong chat hoặc nơi không chủ �
 1. Vào Vercel → Add New Project → Import Git Repository, chọn repo `jade-catalogue`.
 2. Root Directory: `.` (gốc repo). Giữ cấu hình từ `vercel.json`: Framework Other, build `node scripts/check.mjs`, Output Directory `dist`, bỏ bước install vì frontend không cần dependency khi chạy.
 3. Không thêm database password, service key hoặc Supabase CLI access token vào Vercel. Cấu hình công khai đã có trong `dist/config.js`; RLS bảo vệ quyền ghi tại database.
-4. Deploy. Mở trang chủ, kiểm tra catalogue đọc được Supabase và nút Zalo đúng số cửa hàng.
+4. Deploy. Mở trang chủ, kiểm tra catalogue đọc được Supabase, nút Zalo vào đúng nhóm và hotline gọi đúng số cửa hàng.
 5. Mở `/admin.html`, đăng nhập bằng tài khoản Auth được cấp quyền rồi đăng ảnh và thông tin món đầu tiên.
 
 Bản Vercel dùng HTTPS và Supabase Auth trực tiếp, không dùng cổng đăng nhập ChatGPT của bản xem thử Sites. Metadata `.openai/hosting.json` chỉ ghi nhận bản xem thử riêng tư đã tạo, Vercel không sử dụng file đó. Toàn bộ chức năng chạy từ `dist/` và cùng nguồn dữ liệu Supabase.

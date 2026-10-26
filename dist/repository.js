@@ -51,7 +51,7 @@ export const repository = {
     session = {...result,expires_at:result.expires_at || Math.floor(Date.now()/1000)+result.expires_in};
     try {
       const admin = await request('/rest/v1/rpc/is_shop_admin', { method:'POST', token:session.access_token, headers:{'Content-Type':'application/json'}, body:'{}' });
-      if (!admin) throw new Error('Tài khoản này không có quyền quản trị Ngân Giang.');
+      if (!admin) throw new Error('Tài khoản này không có quyền quản trị Ngọc Nhà Lyn.');
     } catch (e) { await this.signOut().catch(()=>{}); throw e; }
     return result.user;
   },

@@ -24,7 +24,7 @@ Cập nhật 26/10/2026. Kết quả này phân biệt mã, bản xem thử và 
 
 - HTTP localhost trả 200.
 - Thử bộ lọc nhẫn → ni 18,4 mm: đúng một sản phẩm mẫu.
-- Mở chi tiết n188: đúng giá/ni/mã, nội dung hỏi và liên kết Zalo `0979628889`, gọi `+84979628889`.
+- Mở chi tiết n188 bằng dữ liệu mẫu: đúng giá/ni/mã, nội dung hỏi mang tên Ngọc Nhà Lyn, liên kết nhóm Zalo `https://zalo.me/g/bafpcs297` và gọi `+84979628889`.
 - Tìm không có kết quả: trạng thái trống và reset hoạt động.
 - Hướng dẫn ni mở/đóng bằng dialog, giải thích đường kính trong.
 - Lưu/bỏ lưu và xem danh sách đã lưu hoạt động; đã bỏ lưu dữ liệu test sau kiểm tra.
@@ -47,3 +47,13 @@ Cập nhật 26/10/2026. Kết quả này phân biệt mã, bản xem thử và 
 - Không có mật khẩu mặc định; không lưu mật khẩu database vào source. Chưa đăng nhập thay chủ cửa hàng hoặc thử tải tệp qua phiên Auth của chủ cửa hàng vì không có mật khẩu user đó. User thật tự đăng nhập để thêm hàng; đây là bước kiểm tra thao tác của người dùng còn lại, không phải quyền được giả lập.
 
 Mã catalogue hiện dùng `dataSource: 'supabase'`. Lỗi API thật không trả hàng mẫu. Các screenshot preview-desktop/mobile ghi lại phương án giao diện trước khi chuyển sang database trống thật; không phải bằng chứng tồn kho.
+
+## Cập nhật nhận diện Ngọc Nhà Lyn
+
+- Catalogue và trang quản trị hiển thị tên mới, logo Lyn do khách cung cấp và bảng màu kem/hồng phấn/hồng đất. Không còn tên cửa hàng cũ trong nội dung HTML/JS hiển thị.
+- Quét các liên kết tĩnh và kiểm tra DOM: toàn bộ nút Zalo mở nhóm `https://zalo.me/g/bafpcs297`; hotline vẫn là `tel:+84979628889`.
+- Popup chi tiết, trạng thái trống và hướng dẫn đều dùng nhóm; các vùng liên hệ trực tiếp giữ hotline. Nội dung sao chép hỏi món bắt đầu bằng “Chào Ngọc Nhà Lyn”.
+- Browser QA dùng đúng mã ứng dụng và chế độ preview có sẵn trên host QA riêng; không thêm hàng giả vào Supabase. Bộ lọc nhẫn → ni 18,4 trả đúng một món mẫu. Lưu món, tải lại trang, danh sách vẫn giữ; đã bỏ lưu món thử sau kiểm tra.
+- Ảnh popup được sửa `height:auto` để không bị giữ 800 px từ thuộc tính HTML. Trên mobile, khung ảnh đo được khoảng 300 × 261 px; thông số và toàn bộ nội dung vẫn có thể xem. Không tràn ngang trong dialog.
+- Kiểm tra ở viewport 390 px và 1440 px: chiều rộng nội dung bằng viewport khả dụng, không tràn ngang. Trang quản trị mobile cũng không tràn và vẫn hiển thị form đăng nhập thật.
+- 11/11 nhóm test hiện có qua sau đổi nhận diện; kiểm tra cú pháp và tham chiếu tài nguyên qua. Không sửa schema, dữ liệu sản phẩm hoặc quyền admin.

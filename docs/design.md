@@ -1,4 +1,4 @@
-# Hướng giao diện Ngân Giang
+# Hướng giao diện Ngọc Nhà Lyn
 
 ## Chủ đích
 
@@ -6,13 +6,15 @@ Thanh nhã, đơn giản, dễ ngắm và có độ tin cậy của một cửa 
 
 | Vai trò | Giá trị | Cách dùng |
 |---|---|---|
-| Nền ngà | `#fcfbf8` | Không gian chính, giúp ảnh đá tự nhiên nổi bật |
-| Xanh ngọc trầm | `#254e43` | Nút chính, điều hướng, chữ thương hiệu và vùng liên hệ |
-| Chữ chính | `#263d35` | Nội dung cần đọc |
-| Chữ phụ | `#69726b` | Thông số, nhãn, chú thích |
-| Xanh nhạt | `#eaf0e9` | Nhóm kiến thức, phản hồi nhẹ |
-| Vàng đất | `#a28c60` | Chi tiết rất nhỏ, không làm màu chủ đạo |
-| Viền | `#e4e6dd` | Chia cấu trúc, giảm nhu cầu box shadow |
+| Kem ấm | `#fffaf5` | Nền chính, đủ trung tính để xem màu ngọc |
+| Hồng đất đậm | `#874652` | Nút chính, điều hướng, vùng liên hệ và focus |
+| Chữ nâu mận | `#4d353a` | Nội dung chính, tương phản 10,73:1 trên nền kem |
+| Chữ phụ | `#786267` | Thông số, nhãn, chú thích; tương phản 5,41:1 trên kem |
+| Hồng phấn | `#f7e8e6` | Mảng nền nhỏ và phản hồi; không dùng làm chữ nhỏ |
+| Hồng gốm nhạt | `#b48177` | Nét trang trí có tiết chế |
+| Viền | `#eadbd5` | Phân vùng nhẹ, giảm nhu cầu box shadow |
+
+Logo Lyn từ ảnh do chủ cửa hàng cung cấp được giữ nguyên nội dung, chuyển định dạng WebP để dùng ở header/footer/trang quản trị; favicon PNG lấy từ cùng ảnh. Nguồn gốc tại `design/brand/lyn-logo-original.png`. Không sinh hoặc vẽ lại logo. Xanh lam trong ảnh QR là giao diện Zalo, không dùng làm màu nhận diện website. Xanh trong ảnh ngọc và minh họa chất ngọc vẫn giữ tự nhiên.
 
 Lora cho tiêu đề và chữ nghiêng, Be Vietnam Pro cho tiếng Việt trong điều hướng, bộ lọc, thông số. Font phục vụ tại chỗ, có OFL trong assets; không phụ thuộc tải Google Fonts khi mở trang.
 

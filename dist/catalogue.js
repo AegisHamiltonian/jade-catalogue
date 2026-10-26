@@ -1,3 +1,4 @@
+import { config } from './config.js';
 export const categoryNames = { vong: 'Vòng tay', nhan: 'Nhẫn', mat_day: 'Mặt dây', khac: 'Ngọc khác' };
 export const supplyNames = { stock: 'Hàng có sẵn', order: 'Nhận đặt', sold: 'Đã hết hàng' };
 export const money = value => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(value);
@@ -30,7 +31,7 @@ export function sizeLabel(p) {
 }
 export function inquiryText(p, url) {
   const prefix = p.supply === 'sold' ? 'Em muốn tìm một mẫu tương tự' : p.supply === 'order' ? 'Em muốn hỏi thời gian và điều kiện đặt mẫu' : 'Em muốn xem thêm ảnh/video và hỏi tình trạng';
-  return `Chào Ngân Giang, ${prefix} ${p.title} (mã ${p.sku}). ${sizeLabel(p)}; giá niêm yết ${money(p.price_vnd)}.\n${url}`;
+  return `Chào ${config.brand}, ${prefix} ${p.title} (mã ${p.sku}). ${sizeLabel(p)}; giá niêm yết ${money(p.price_vnd)}.\n${url}`;
 }
 export function productURL(sku, locationHref) {
   const u = new URL(locationHref); u.search = ''; u.searchParams.set('san-pham', sku); u.hash = ''; return u.href;
