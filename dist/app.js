@@ -2,7 +2,7 @@ import { renderRingSizingGuide } from './ring-sizing.js';
 import { renderSizingImages } from './sizing-images.js';
 import { config } from './config.js';
 import { repository, isPreview } from './repository.js';
-import { categoryNames, usesDiameter, priceRanges, supplyNames, money, escapeHTML as e, safeMedia, filterProducts, groupByBatch, sizeLabel, inquiryText, productURL } from './catalogue.js';
+import { categoryNames, usesDiameter, priceRanges, supplyNames, money, escapeHTML as e, safeMedia, filterProducts, groupByBatch, groupByAvailability, sizeLabel, inquiryText, productURL } from './catalogue.js';
 const $ = selector => document.querySelector(selector);
 const state = { products:[], saved:[], filters:{category:'',q:'',supply:'',price:'',color:'',texture:'',size:'',sort:'newest',savedOnly:false}, busy:false, modalProduct:null, lastUpdate:0 };
 try { const ids=JSON.parse(localStorage.getItem('ngan-giang-saved') || '[]'); if(Array.isArray(ids)) state.saved=ids.filter(x=>typeof x==='string').slice(0,1000); } catch {}
@@ -17,6 +17,14 @@ function card(p) {
   const saved=state.saved.includes(p.id);
   return `<article class="product-card"><div class="product-photo"><button class="product-open" data-product="${e(p.sku)}" aria-label="Xem ${e(p.title)}, mã ${e(p.sku)}"><img src="${e(safeMedia(p.thumbnail_url))}" width="600" height="600" alt="${e(p.title)}" loading="lazy"></button><span class="badge ${e(p.supply)}"><span class="status-dot"></span>${supplyNames[p.supply] || 'Liên hệ'}</span><button class="save-product icon-button" data-save="${e(p.id)}" data-title="${e(p.title)}" aria-label="${saved?'Bỏ lưu':'Lưu'} ${e(p.title)}" aria-pressed="${saved}"><svg><use href="#i-heart"/></svg></button><span class="photo-hover-label">Ngắm kỹ món ngọc <span>↗</span></span></div><div class="product-info"><div class="product-topline"><span>${e(categoryNames[p.category] || 'Ngọc')}</span><span>${e(p.sku.toUpperCase())}</span></div><h3><button data-product="${e(p.sku)}">${e(p.title)}</button></h3><p class="product-attributes"><span>${e(sizeLabel(p))}</span>${p.jade_texture ? `<span>${e(p.jade_texture)}</span>`:''}</p><div class="product-price"><strong>${money(p.price_vnd)}</strong><button data-product="${e(p.sku)}">Xem chi tiết <span>↗</span></button></div></div></article>`;
 }
+function renderProductGroups(products) {
+  const grid=items=>state.filters.sort==='newest'
+    ? Object.entries(groupByBatch(items)).map(([date,batch])=>`<section class="batch" aria-label="Đợt ngày ${e(date)}"><div class="batch-heading"><span class="small-line"></span><strong>Đợt ngọc ${new Date(date+'T12:00:00+07:00').toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'})}</strong><span class="batch-count">/ ${batch.length} món ngọc</span></div><div class="product-grid">${batch.map(card).join('')}</div></section>`).join('')
+    : `<div class="product-grid">${items.map(card).join('')}</div>`;
+  return groupByAvailability(products).map(({key,items})=>key==='sold'
+    ? `<section class="sold-section" aria-labelledby="sold-products-title"><div class="sold-heading"><h3 id="sold-products-title">Sản phẩm đã hết hàng</h3><span>${items.length} món ngọc</span></div>${grid(items)}</section>`
+    : `<div class="available-products">${grid(items)}</div>`).join('');
+}
 function render() {
   const products=filterProducts(state.products,{...state.filters,saved:state.saved});
   $('#result-count').textContent=`${products.length} món ngọc${state.filters.savedOnly?' đã lưu':''} · ${isPreview?'Dữ liệu mẫu':'Cập nhật '+new Date(state.lastUpdate).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}`;
@@ -24,8 +32,7 @@ function render() {
   $('#product-list').setAttribute('aria-busy','false');
   if (!products.length && !state.products.length) $('#product-list').innerHTML=`<div class="empty-state"><h3>Bộ sưu tập đang được cập nhật.</h3><p>Ngọc Nhà Lyn sẽ đăng ảnh và thông tin từng món ngọc tại đây.<br>Bạn có thể vào nhóm Zalo để xem các món hiện có, hoặc gọi hotline để hỏi trực tiếp.</p><a class="button primary" href="${config.zaloGroupUrl}" target="_blank" rel="noopener noreferrer">Vào nhóm Zalo Ngọc Nhà Lyn <svg><use href="#i-arrow-up"/></svg></a></div>`;
   else if (!products.length) $('#product-list').innerHTML=`<div class="empty-state"><h3>${state.filters.savedOnly?'Góc nhỏ dành cho món bạn thương.':'Chưa gặp món ngọc phù hợp.'}</h3><p>${state.filters.savedOnly?'Chạm biểu tượng trái tim trên mỗi món để lưu lại trên thiết bị này.':'Thử đổi ni, màu hoặc khoảng giá để ngắm thêm những lựa chọn khác.'}</p><button class="button primary" data-reset>Xem toàn bộ bộ sưu tập <svg><use href="#i-arrow"/></svg></button></div>`;
-  else if (state.filters.sort==='newest') $('#product-list').innerHTML=Object.entries(groupByBatch(products)).map(([date,items])=>`<section class="batch" aria-label="Đợt ngày ${e(date)}"><div class="batch-heading"><span class="small-line"></span><strong>Đợt ngọc ${new Date(date+'T12:00:00+07:00').toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'})}</strong><span class="batch-count">/ ${items.length} món ngọc</span></div><div class="product-grid">${items.map(card).join('')}</div></section>`).join('');
-  else $('#product-list').innerHTML=`<div class="product-grid">${products.map(card).join('')}</div>`;
+  else $('#product-list').innerHTML=renderProductGroups(products);
   const active=Object.entries(state.filters).some(([k,v])=>!['sort','category'].includes(k)&&v);
   $('#active-filters').hidden=!active; $('#active-filter-label').textContent=state.filters.savedOnly?'Đang ngắm các món đã lưu':'Đang lọc theo lựa chọn của bạn';
   syncSaved();

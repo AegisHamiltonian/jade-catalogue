@@ -121,3 +121,9 @@ Tham khảo cấu hình chính thức: [Vercel — vercel.json](https://vercel.c
 - size_mm là nguồn nhập duy nhất. ni_tay và bead_diameter_mm được database suy ra để phục vụ lọc và kiểm tra số; dimensions cũ giữ nguyên để bảo toàn dữ liệu, không còn là ô nhập hay đường hiển thị thứ hai. Không sửa trực tiếp các trường số cũ.
 - Nhập số đơn hoặc ghi rõ `Ni 54 mm` cho vòng bản/nhẫn nếu cần lọc ni. Chuỗi nhiều chiều vẫn được lưu và hiển thị đủ; không tự lấy một chiều làm ni. Không tự chuyển cm sang mm.
 - Các trích dẫn nguồn và liên kết nghiên cứu đã gỡ khỏi nội dung hướng dẫn khách xem. Tài liệu nghiên cứu/nguồn gốc vẫn giữ trong docs; các hình và bảng hướng dẫn trên web vẫn còn.
+
+## Hiển thị tình trạng trong catalogue
+
+- Tình trạng có ba lựa chọn: Hàng có sẵn, Nhận đặt, Đã hết hàng. Để Tình trạng để xem tất cả.
+- Khi xem tất cả hoặc lọc theo tên, danh mục, màu, chất ngọc, Size, giá hay yêu thích, các món sold khớp điều kiện vẫn được hiển thị trong nhóm **Sản phẩm đã hết hàng** ở cuối. Hàng có sẵn và nhận đặt nằm phía trên.
+- Sắp xếp giá tăng/giảm hoặc theo đợt mới được áp dụng trong từng nhóm. Đổi trạng thái món trong trang quản trị sẽ chuyển nhóm khi catalogue nhận bản cập nhật tiếp theo; không cần sửa ngày lên hàng để đẩy món đã bán xuống dưới.

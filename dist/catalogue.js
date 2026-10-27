@@ -35,6 +35,11 @@ export function filterProducts(products, filters = {}) {
 export function groupByBatch(products) {
   return products.reduce((groups, p) => { (groups[p.batch_date] ??= []).push(p); return groups; }, {});
 }
+export function groupByAvailability(products) {
+  const available=[],sold=[];
+  for(const product of products)(product.supply==='sold'?sold:available).push(product);
+  return [{key:'available',items:available},{key:'sold',items:sold}].filter(group=>group.items.length);
+}
 export function sizeLabel(p) {
   return formatSize(p.size_mm);
 }
