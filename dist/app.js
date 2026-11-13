@@ -18,12 +18,13 @@ function card(p) {
   return `<article class="product-card"><div class="product-photo"><button class="product-open" data-product="${e(p.sku)}" aria-label="Xem ${e(p.title)}, mã ${e(p.sku)}"><img src="${e(safeMedia(p.thumbnail_url))}" width="600" height="600" alt="${e(p.title)}" loading="lazy"></button><span class="badge ${e(p.supply)}"><span class="status-dot"></span>${supplyNames[p.supply] || 'Liên hệ'}</span><button class="save-product icon-button" data-save="${e(p.id)}" data-title="${e(p.title)}" aria-label="${saved?'Bỏ lưu':'Lưu'} ${e(p.title)}" aria-pressed="${saved}"><svg><use href="#i-heart"/></svg></button><span class="photo-hover-label">Ngắm kỹ món ngọc <span>↗</span></span></div><div class="product-info"><div class="product-topline"><span>${e(categoryNames[p.category] || 'Ngọc')}</span><span>${e(p.sku.toUpperCase())}</span></div><h3><button data-product="${e(p.sku)}">${e(p.title)}</button></h3><p class="product-attributes"><span>${e(sizeLabel(p))}</span>${p.jade_texture ? `<span>${e(p.jade_texture)}</span>`:''}</p><div class="product-price"><strong>${money(p.price_vnd)}</strong><button data-product="${e(p.sku)}">Xem chi tiết <span>↗</span></button></div></div></article>`;
 }
 function renderProductGroups(products) {
-  const grid=items=>state.filters.sort==='newest'
+  const grid=items=>`<div class="product-grid">${items.map(card).join('')}</div>`;
+  const batches=items=>state.filters.sort==='newest'
     ? Object.entries(groupByBatch(items)).map(([date,batch])=>`<section class="batch" aria-label="Đợt ngày ${e(date)}"><div class="batch-heading"><span class="small-line"></span><strong>Đợt ngọc ${new Date(date+'T12:00:00+07:00').toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'})}</strong><span class="batch-count">/ ${batch.length} món ngọc</span></div><div class="product-grid">${batch.map(card).join('')}</div></section>`).join('')
-    : `<div class="product-grid">${items.map(card).join('')}</div>`;
+    : grid(items);
   return groupByAvailability(products).map(({key,items})=>key==='sold'
     ? `<section class="sold-section" aria-labelledby="sold-products-title"><div class="sold-heading"><h3 id="sold-products-title">Sản phẩm đã hết hàng</h3><span>${items.length} món ngọc</span></div>${grid(items)}</section>`
-    : `<div class="available-products">${grid(items)}</div>`).join('');
+    : `<div class="available-products">${batches(items)}</div>`).join('');
 }
 function render() {
   const products=filterProducts(state.products,{...state.filters,saved:state.saved});

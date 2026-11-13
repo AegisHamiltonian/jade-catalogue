@@ -126,4 +126,4 @@ Tham khảo cấu hình chính thức: [Vercel — vercel.json](https://vercel.c
 
 - Tình trạng có ba lựa chọn: Hàng có sẵn, Nhận đặt, Đã hết hàng. Để Tình trạng để xem tất cả.
 - Khi xem tất cả hoặc lọc theo tên, danh mục, màu, chất ngọc, Size, giá hay yêu thích, các món sold khớp điều kiện vẫn được hiển thị trong nhóm **Sản phẩm đã hết hàng** ở cuối. Hàng có sẵn và nhận đặt nằm phía trên.
-- Sắp xếp giá tăng/giảm hoặc theo đợt mới được áp dụng trong từng nhóm. Đổi trạng thái món trong trang quản trị sẽ chuyển nhóm khi catalogue nhận bản cập nhật tiếp theo; không cần sửa ngày lên hàng để đẩy món đã bán xuống dưới.
+- Hàng còn sẵn vẫn được chia theo ngày đăng khi sắp xếp mới nhất. Các món đã hết hàng hiển thị liền thành một lưới dưới tiêu đề chung **Sản phẩm đã hết hàng**, không chia theo ngày; thứ tự mới nhất hoặc giá được chọn vẫn áp dụng trong nhóm đó. Đổi trạng thái món trong trang quản trị sẽ chuyển nhóm khi catalogue nhận bản cập nhật tiếp theo.
